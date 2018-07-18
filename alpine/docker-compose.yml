@@ -1,0 +1,87 @@
+version: "3"
+services:
+  master:
+    image: mpolatcan/hbase:alpine-2.0.1-hadoop-2.9.0
+    container_name: master
+    hostname: master
+    environment:
+      - HBASE_NODE_TYPE=master
+      - HBASE_MANAGES_ZK=false
+      - HBASE_ZK_QUORUM=zk1,zk2,zk3
+      - HBASE_CLUSTER_DISTRIBUTED=true
+      - HADOOP_NODE_TYPE=namenode
+      - DFS_REPLICATION=2
+    ports:
+      - 8080:16010
+      - 50070:50070
+      - 50090:50090
+      - 50075:50075
+      - 1988:1988
+      - 8042:8042
+      - 8088:8088
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+    links:
+      - zk1
+      - zk2
+      - zk3
+
+  slave:
+    image: mpolatcan/hbase:alpine-2.0.1-hadoop-2.9.0
+    environment:
+      - HBASE_NODE_TYPE=regionserver
+      - HBASE_MANAGES_ZK=false
+      - HBASE_ZK_QUORUM=zk1,zk2,zk3
+      - HBASE_MASTER_HOSTNAME=master
+      - HBASE_CLUSTER_DISTRIBUTED=true
+      - HADOOP_NODE_TYPE=datanode
+      - FS_HOSTNAME=master
+      - YARN_RM_HOSTNAME=master
+      - DFS_REPLICATION=2
+    depends_on:
+      - master
+      - zk1
+      - zk2
+      - zk3
+    links:
+      - master
+      - zk1
+      - zk2
+      - zk3
+
+   # -------------------------------- ZOOKEEPER QUORUM ------------------------------------------
+  zk1:
+    image: zookeeper
+    restart: always
+    container_name: zk1
+    hostname: zk1
+    ports:
+      - 2181:2181
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=0.0.0.0:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888
+
+  zk2:
+    image: zookeeper
+    restart: always
+    hostname: zk2
+    container_name: zk2
+    ports:
+      - 2182:2181
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zk3:2888:3888
+
+  zk3:
+    image: zookeeper
+    restart: always
+    hostname: zk3
+    container_name: zk3
+    ports:
+      - 2183:2181
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=0.0.0.0:2888:3888
+  # -------------------------------------------------------------------------------------------
