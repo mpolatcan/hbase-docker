@@ -63,14 +63,14 @@ function startHBaseMaster() {
 }
 
 # Load Hadoop configs
-./hadoop_config_loader.sh
+/hadoop_config_loader.sh
 
 [[ "${HADOOP_NODE_TYPE}" == "namenode" ]] && startNamenode
 
 [[ "${HADOOP_NODE_TYPE}" == "datanode" ]] && startDatanode
 
 # Load HBase configurations
-hbase_config_loader.sh
+/hbase_config_loader.sh
 
 [[ "${HBASE_NODE_TYPE}" == "master" ]] && startHBaseMaster
 
