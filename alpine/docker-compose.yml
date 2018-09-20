@@ -1,7 +1,7 @@
 version: "3"
 services:
   master:
-    image: mpolatcan/hbase:alpine-2.0.1-hadoop-2.9.0
+    image: mpolatcan/hbase:alpine-2.0.2-hadoop-2.9.0
     container_name: master
     hostname: master
     environment:
@@ -23,13 +23,14 @@ services:
       - zk1
       - zk2
       - zk3
-    links:
-      - zk1
-      - zk2
-      - zk3
+      - regionserver_1
+      - regionserver_2
+      - regionserver_3
 
-  slave:
-    image: mpolatcan/hbase:alpine-2.0.1-hadoop-2.9.0
+  regionserver_1:
+    image: mpolatcan/hbase:alpine-2.0.2-hadoop-2.9.0
+    hostname: regionserver_1
+    container_name: regionserver_1
     environment:
       - HBASE_NODE_TYPE=regionserver
       - HBASE_MANAGES_ZK=false
@@ -41,12 +42,44 @@ services:
       - YARN_RM_HOSTNAME=master
       - DFS_REPLICATION=2
     depends_on:
-      - master
       - zk1
       - zk2
       - zk3
-    links:
-      - master
+
+  regionserver_2:
+    image: mpolatcan/hbase:alpine-2.0.2-hadoop-2.9.0
+    hostname: regionserver_2
+    container_name: regionserver_2
+    environment:
+      - HBASE_NODE_TYPE=regionserver
+      - HBASE_MANAGES_ZK=false
+      - HBASE_ZK_QUORUM=zk1,zk2,zk3
+      - HBASE_MASTER_HOSTNAME=master
+      - HBASE_CLUSTER_DISTRIBUTED=true
+      - HADOOP_NODE_TYPE=datanode
+      - FS_HOSTNAME=master
+      - YARN_RM_HOSTNAME=master
+      - DFS_REPLICATION=2
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+
+  regionserver_3:
+    image: mpolatcan/hbase:alpine-2.0.2-hadoop-2.9.0
+    hostname: regionserver_3
+    container_name: regionserver_3
+    environment:
+      - HBASE_NODE_TYPE=regionserver
+      - HBASE_MANAGES_ZK=false
+      - HBASE_ZK_QUORUM=zk1,zk2,zk3
+      - HBASE_MASTER_HOSTNAME=master
+      - HBASE_CLUSTER_DISTRIBUTED=true
+      - HADOOP_NODE_TYPE=datanode
+      - FS_HOSTNAME=master
+      - YARN_RM_HOSTNAME=master
+      - DFS_REPLICATION=2
+    depends_on:
       - zk1
       - zk2
       - zk3
