@@ -16,7 +16,7 @@ function loadConfigWithOption() {
 }
 
 echo "<configuration>" > ${HBASE_CONF_DIR}/hbase-site.xml
-loadConfig "hbase.regionserver.hostname" "HOSTNAME" "hbase-site.xml"
+loadConfig "hbase.regionserver.hostname" "${HOSTNAME}" "hbase-site.xml"
 loadConfig "hbase.cluster.distributed" "${HBASE_CLUSTER_DISTRIBUTED}" "hbase-site.xml"
 loadConfig "hbase.zookeeper.property.clientPort" "${HBASE_ZK_CLIENT_PORT}" "hbase-site.xml"
 loadConfig "hbase.client.retries.number" "${HBASE_CLIENT_RETRIES_NUMBER}" "hbase-site.xml"
