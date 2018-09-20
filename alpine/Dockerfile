@@ -37,6 +37,7 @@ ENV HBASE_ZK_QUORUM "NULL"
 ENV HBASE_ZK_CLIENT_PORT "2181"
 ENV HBASE_MANAGES_ZK "true"
 ENV HBASE_CLUSTER_DISTRIBUTED "false"
+ENV HBASE_WAL_USE_HSYNC "false"
 ########################################################################################################################
 
 COPY entrypoint.sh hbase_config_loader.sh ./
