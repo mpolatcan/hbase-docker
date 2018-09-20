@@ -58,6 +58,7 @@ function startHBaseMaster() {
             appendToFile "export HBASE_MANAGES_ZK=false" "${HBASE_CONF_DIR}/hbase-env.sh"
     fi
 
+    execCmd "${HADOOP_HOME}/bin/hadoop fs -mkdir ${HBASE_ROOT_DIR}"
     execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start master"
     execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start regionserver"
 }

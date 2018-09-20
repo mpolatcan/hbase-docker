@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   master:
-    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-2.9.0
+    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-3.1.1
     container_name: master
     hostname: master
     environment:
@@ -26,7 +26,7 @@ services:
       - regionserver
 
   regionserver:
-    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-2.9.0
+    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-3.1.1
     environment:
       - HBASE_NODE_TYPE=regionserver
       - HBASE_MANAGES_ZK=false
