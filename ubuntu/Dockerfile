@@ -52,6 +52,6 @@ RUN wget ${HBASE_DOWNLOAD_LINK} && \
     chmod -R 777 ${HBASE_HOME} && \
     echo "export JAVA_HOME=${JAVA_HOME}" >> ${HBASE_CONF_DIR}/hbase-env.sh && \
     chmod +x entrypoint.sh hbase_config_loader.sh && \
-    echo "PATH=$PATH:$HBASE_HOME/bin" >> /etc/profile
+    echo "PATH=$PATH:$HBASE_HOME/bin" >> /etc/environment
 
 ENTRYPOINT ["./entrypoint.sh"]
