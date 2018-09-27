@@ -60,6 +60,8 @@ function startHBaseMaster() {
 
     execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start master"
     execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start regionserver"
+    execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start thrift -p ${HBASE_THRIFT_PORT}"
+    execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start rest -p ${HBASE_REST_PORT}"
 }
 
 # Load Hadoop configs
