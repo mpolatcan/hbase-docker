@@ -41,6 +41,11 @@ ENV HBASE_MANAGES_ZK "true"
 ENV HBASE_CLUSTER_DISTRIBUTED "false"
 ENV HBASE_WAL_USE_HSYNC "false"
 ENV HBASE_UNSAFE_STREAM_CAPABILITY_ENFORCE "false"
+ENV HBASE_MASTER_LOGCLEANER_TTL "300000"
+ENV HBASE_MASTER_PROCEDUREWALCLEANER_TTL "604800000"
+ENV HBASE_REGIONSERVER_LOGROLL_PERIOD "300000"
+ENV HBASE_REGIONSERVER_REGION_SPLIT_POLICY "org.apache.hadoop.hbase.regionserver.SteppingSplitPolicy"
+ENV HBASE_REGIONSERVER_REGION_SPLIT_LIMIT "1000"
 ########################################################################################################################
 
 COPY entrypoint.sh hbase_config_loader.sh ./
