@@ -3,7 +3,7 @@ ARG HADOOP_VERSION=2.9.0
 FROM mpolatcan/hadoop:alpine-${HADOOP_VERSION}
 
 ARG HBASE_VERSION=2.0.0
-ARG HBASE_DOWNLOAD_LINK="http://archive.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz"
+ARG HBASE_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz"
 
 # TODO Add new configurations
 
