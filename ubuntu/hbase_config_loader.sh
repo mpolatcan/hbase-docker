@@ -32,4 +32,3 @@ loadConfig "hbase.unsafe.stream.capability.enforce" "${HBASE_UNSAFE_STREAM_CAPAB
 loadConfigWithOption "hbase.master" ${HBASE_MASTER_HOSTNAME} "${HBASE_MASTER_HOSTNAME}:${HBASE_MASTER_PORT}" "${HOSTNAME}:${HBASE_MASTER_PORT}" "hbase-site.xml"
 loadConfigWithOption "hbase.zookeeper.quorum" ${HBASE_ZK_QUORUM} "${HBASE_ZK_QUORUM}" "${HOSTNAME}" "hbase-site.xml"
 loadConfigWithOption "hbase.rootdir" ${FS_HOSTNAME} "${FS_DEFAULTFS_PREFIX}${FS_HOSTNAME}:${FS_DEFAULTFS_PORT}${HBASE_ROOT_DIR}" "${FS_DEFAULTFS_PREFIX}${HOSTNAME}:${FS_DEFAULTFS_PORT}${HBASE_ROOT_DIR}" "hbase-site.xml"
-echo "</configuration>" >> ${HBASE_CONF_DIR}/hbase-site.xml

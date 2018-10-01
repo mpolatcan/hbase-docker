@@ -64,8 +64,12 @@ function startHBaseMaster() {
     execCmd "${HBASE_HOME}/bin/hbase-daemon.sh start rest -p ${HBASE_REST_PORT}"
 }
 
+
 # Load Hadoop configs
 /hadoop_config_loader.sh
+
+# Terminate config load
+echo "</configuration>" >> ${HBASE_CONF_DIR}/hbase-site.xml
 
 [[ "${HADOOP_NODE_TYPE}" == "namenode" ]] && startNamenode
 
