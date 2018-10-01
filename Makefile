@@ -55,4 +55,4 @@ publish-hbase:
 publish-hbase-helper:
 	sudo docker build -q -t mpolatcan/hbase:$(dist)-$(hbase_version)-hadoop-$(hadoop_version) --build-arg HBASE_VERSION=$(hbase_version) --build-arg HADOOP_VERSION=$(hadoop_version) ./$(dist)/
 	sudo docker push mpolatcan/hbase:$(dist)-$(hbase_version)-hadoop-$(hadoop_version)
-	sudo docker rmi $(sudo docker images -q)
+	sudo docker rmi $$(sudo docker images -q)
