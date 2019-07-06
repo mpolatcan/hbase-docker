@@ -2,11 +2,8 @@
 HADOOP_VERSIONS=(
     "3.2.0"
     "3.1.2"
-    "3.1.1"
     "3.0.3"
-    "3.0.2"
     "2.9.1"
-    "2.9.0"
     "2.8.4"
     "2.7.6"
     "2.6.5"
@@ -31,7 +28,7 @@ DISTS=(
 function build_image() {
     sudo docker build -q -t mpolatcan/hbase:$1-$2-hadoop-$3 --build-arg HBASE_VERSION=$2 --build-arg HADOOP_VERSION=$3 ./$1/
 	sudo docker push mpolatcan/hbase:$1-$2-hadoop-$3
-	sudo docker rmi $(sudo docker images -q)
+	sudo docker rmi mpolatcan/hbase:$1-$2-hadoop-$3
 }
 
 for HBASE_VERSION in ${HBASE_VERSIONS[@]}; do
