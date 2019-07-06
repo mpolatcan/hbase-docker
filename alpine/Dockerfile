@@ -65,5 +65,4 @@ RUN wget ${HBASE_DOWNLOAD_LINK} && \
     chmod +x hbase_entrypoint.sh hbase_config_loader.sh && \
     echo "PATH=$PATH:$HBASE_HOME/bin" >> /etc/profile
 
-ENTRYPOINT ["./hbase_entrypoint.sh"]
-CMD ["tail","-f","/dev/null"]
+ENTRYPOINT ["./hbase_entrypoint.sh", "hbase"]

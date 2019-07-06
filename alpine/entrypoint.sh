@@ -35,7 +35,7 @@ function startHBaseMaster() {
 
 
 # Start Hadoop services with loaded configurations
-./hadoop_entrypoint.sh
+./hadoop_entrypoint.sh $1
 
 # Load HBase configurations
 /hbase_config_loader.sh
@@ -46,3 +46,7 @@ echo "</configuration>" >> ${HBASE_CONF_DIR}/hbase-site.xml
 [[ "${HBASE_NODE_TYPE}" == "master" ]] && startHBaseMaster
 
 [[ "${HBASE_NODE_TYPE}" == "regionserver" ]] && startHBaseRegionserver
+
+if [[ "$1" == "hbase" ]]; then
+    tail -f /dev/null
+fi
