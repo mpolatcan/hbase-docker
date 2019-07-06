@@ -47,7 +47,8 @@ ENV HBASE_REGIONSERVER_REGION_SPLIT_POLICY "org.apache.hadoop.hbase.regionserver
 ENV HBASE_REGIONSERVER_REGION_SPLIT_LIMIT "1000"
 ########################################################################################################################
 
-COPY entrypoint.sh hbase_config_loader.sh ./
+ADD entrypoint.sh /hbase_entrypoint.sh
+ADD hbase_config_loader.sh /
 
 RUN wget ${HBASE_DOWNLOAD_LINK} && \
     mkdir -p ${HBASE_HOME} && \
@@ -58,7 +59,8 @@ RUN wget ${HBASE_DOWNLOAD_LINK} && \
     chown -R hduser:hadoop ${HBASE_HOME} && \
     chmod -R 777 ${HBASE_HOME} && \
     echo "export JAVA_HOME=${JAVA_HOME}" >> ${HBASE_CONF_DIR}/hbase-env.sh && \
-    chmod +x entrypoint.sh hbase_config_loader.sh && \
+    chmod +x hbase_entrypoint.sh hbase_config_loader.sh && \
     echo "PATH=$PATH:$HBASE_HOME/bin" >> /etc/environment
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./hbase_entrypoint.sh"]
+CMD ["tail","-f","/dev/null"]
