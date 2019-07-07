@@ -1,7 +1,7 @@
 version: "3.5"
 services:
   master:
-    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-3.1.1
+    image: mpolatcan/hbase:ubuntu-2.2.0-hadoop-2.9.1
     container_name: master
     hostname: master
     environment:
@@ -27,7 +27,7 @@ services:
       - regionserver
 
   regionserver:
-    image: mpolatcan/hbase:ubuntu-2.0.2-hadoop-3.1.1
+    image: mpolatcan/hbase:ubuntu-2.2.0-hadoop-2.9.1
     environment:
       - HBASE_NODE_TYPE=regionserver
       - HBASE_MANAGES_ZK=false
@@ -52,7 +52,7 @@ services:
       - 2181:2181
     environment:
       - ZOO_MY_ID=1
-      - ZOO_SERVERS=server.1=0.0.0.0:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888
+      - ZOO_SERVERS=server.1=0.0.0.0:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181
 
   zk2:
     image: zookeeper
@@ -63,7 +63,7 @@ services:
       - 2182:2181
     environment:
       - ZOO_MY_ID=2
-      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zk3:2888:3888
+      - ZOO_SERVERS=server.1=zk1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zk3:2888:3888;2181
 
   zk3:
     image: zookeeper
@@ -74,5 +74,5 @@ services:
       - 2183:2181
     environment:
       - ZOO_MY_ID=3
-      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=0.0.0.0:2888:3888
+      - ZOO_SERVERS=server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
   # -------------------------------------------------------------------------------------------
