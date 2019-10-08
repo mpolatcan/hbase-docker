@@ -1,6 +1,7 @@
 ARG HADOOP_VERSION=2.9.0
+ARG JAVA_VERSION=8
 
-FROM mpolatcan/hadoop:ubuntu-${HADOOP_VERSION}
+FROM mpolatcan/hadoop:${HADOOP_VERSION}-java${JAVA_VERSION}
 
 ARG HBASE_VERSION=2.0.0
 ARG HBASE_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz"
