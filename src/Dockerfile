@@ -9,8 +9,8 @@ ARG HBASE_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hbase/${HBASE_VERSION}/hb
 # TODO Add new configurations
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
-ENV HBASE_HOME "/usr/local/hbase"
-ENV HBASE_CONF_DIR "/usr/local/hbase/conf"
+ENV HBASE_HOME "${HDUSER_HOME}/hbase"
+ENV HBASE_CONF_DIR "${HBASE_HOME}/conf"
 ENV PATH $PATH:$HBASE_HOME/bin
 
 ########################################################################################################################
@@ -48,19 +48,21 @@ ENV HBASE_REGIONSERVER_REGION_SPLIT_POLICY "org.apache.hadoop.hbase.regionserver
 ENV HBASE_REGIONSERVER_REGION_SPLIT_LIMIT "1000"
 ########################################################################################################################
 
-ADD entrypoint.sh /hbase_entrypoint.sh
-ADD hbase_config_loader.sh /
+ADD entrypoint.sh ${HDUSER_HOME}/hbase_entrypoint.sh
+ADD hbase_config_loader.sh ${HDUSER_HOME}
 
+USER root
 RUN wget ${HBASE_DOWNLOAD_LINK} && \
     mkdir -p ${HBASE_HOME} && \
-    tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz -C /usr/local && \
-    mv /usr/local/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
-    rm -r /usr/local/hbase-${HBASE_VERSION} && \
+    tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz -C ${HDUSER_HOME} && \
+    mv ${HDUSER_HOME}/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
+    rm -r ${HDUSER_HOME}/hbase-${HBASE_VERSION} && \
     rm hbase-${HBASE_VERSION}-bin.tar.gz && \
     chown -R hduser:hadoop ${HBASE_HOME} && \
     chmod -R 777 ${HBASE_HOME} && \
     echo "export JAVA_HOME=${JAVA_HOME}" >> ${HBASE_CONF_DIR}/hbase-env.sh && \
-    chmod +x hbase_entrypoint.sh hbase_config_loader.sh && \
+    chmod +x ${HDUSER_HOME}/hbase_entrypoint.sh ${HDUSER_HOME}/hbase_config_loader.sh && \
     echo "PATH=$PATH:$HBASE_HOME/bin" >> /etc/environment
 
+USER hduser
 ENTRYPOINT ["./hbase_entrypoint.sh", "hbase"]
