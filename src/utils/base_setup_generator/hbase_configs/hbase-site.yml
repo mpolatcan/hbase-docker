@@ -1,0 +1,503 @@
+hbase:
+  tmp:
+    dir: ""
+  rootdir:
+    "": "=${HBASE_TMP_DIR}/hbase"
+    perms: "700"
+  cluster:
+    distributed: "false"
+  zookeeper:
+    quorum: "localhost"
+    recovery:
+      retry:
+        maxsleeptime: "60000"
+    dns:
+      interface: "default"
+      nameserver: "default"
+    peerport: "2888"
+    leaderport: "3888"
+    property:
+      initLimit: "10"
+      syncLimit: "5"
+      dataDir: "=${HBASE_TMP_DIR}/zookeeper"
+      clientPort: "2181"
+      maxClientCnxns: "300"
+  local:
+    dir: "=${HBASE_TMP_DIR}/local/"
+  master:
+    port: "16000"
+    info:
+      port: "16010"
+      bindAddress: "0.0.0.0"
+    logcleaner:
+      plugins: "org.apache.hadoop.hbase.master.cleaner.TimeToLiveLogCleaner,org.apache.hadoop.hbase.master.cleaner.TimeToLiveProcedureWALCleaner"
+      ttl: "600000"
+    procedurewalcleaner:
+      ttl: "604800000"
+    hfilecleaner:
+      plugins: "org.apache.hadoop.hbase.master.cleaner.TimeToLiveHFileCleaner"
+    infoserver:
+      redirect: "true"
+    fileSplitTimeout: "600000"
+    balancer:
+      maxRitPercent: "1.0"
+    keytab:
+      file: "NULL"
+    kerberos:
+      principal: "NULL"
+    loadbalancer:
+      class: "org.apache.hadoop.hbase.master.balancer.StochasticLoadBalancer"
+    loadbalance:
+      bytable: "false"
+    normalizer:
+      class: "org.apache.hadoop.hbase.master.normalizer.SimpleRegionNormalizer"
+    mob:
+      ttl:
+        cleaner:
+          period: "86400"
+    wait:
+      "on":
+        service:
+          seconds: "30"
+    cleaner:
+      snapshot:
+        interval: "1800000"
+    snapshot:
+      ttl: "0"
+    regions:
+      recovery:
+        check:
+          interval: "1200000"
+  regionserver:
+    hostname:
+      "": "NULL"
+      disable:
+        master:
+          reversedns: "false"
+    port: "16020"
+    info:
+      port:
+        "": "16030"
+        auto: "false"
+      bindAddress: "0.0.0.0"
+    handler:
+      count: "30"
+      abort:
+        "on":
+          error:
+            percent: "0.5"
+    msginterval: "3000"
+    logroll:
+      period: "3600000"
+      errors:
+        tolerated: "2"
+    hlog:
+      reader:
+        impl: "org.apache.hadoop.hbase.regionserver.wal.ProtobufLogReader"
+      writer:
+        impl: "org.apache.hadoop.hbase.regionserver.wal.ProtobufLogWriter"
+    global:
+      memstore:
+        size:
+          "": "NULL"
+          lower:
+            limit: "NULL"
+    optionalcacheflushinterval: "3600000"
+    dns:
+      interface: "default"
+      nameserver: "default"
+    region:
+      split:
+        policy: "org.apache.hadoop.hbase.regionserver.SteppingSplitPolicy"
+    regionSplitLimit: "1000"
+    flush:
+      check:
+        period: "=${HBASE_SERVER_THREAD_WAKEFREQUENCY}"
+    compaction:
+      check:
+        period: "=${HBASE_SERVER_THREAD_WAKEFREQUENCY}"
+      enabled: "true"
+    offheap:
+      global:
+        memstore:
+          size: "0"
+    thread:
+      compaction:
+        throttle: "2684354560"
+    majorcompaction:
+      pagecache:
+        drop: "true"
+    minorcompaction:
+      pagecache:
+        drop: "true"
+    keytab:
+      file: "NULL"
+    kerberos:
+      principal: "NULL"
+    thrift:
+      framed:
+        "": "false"
+        max_frame_size_in_mb: "2"
+      compact: "false"
+    checksum:
+      verify: "true"
+    storefile:
+      refresh:
+        period: "0"
+  ipc:
+    server:
+      callqueue:
+        handler:
+          factor: "0.1"
+        read:
+          ratio: "0"
+        scan:
+          ratio: "0"
+      fallback-to-simple-auth-allowed: "false"
+    client:
+      tcpnodelay: "true"
+      fallback-to-simple-auth-allowed: "false"
+  systemtables:
+    compacting:
+      memstore:
+        type: "NONE"
+  client:
+    write:
+      buffer: "2097152"
+    pause:
+      "": "100"
+      cqtbe: "NULL"
+    retries:
+      number: "15"
+    max:
+      total:
+        tasks: "100"
+      perserver:
+        tasks: "2"
+      perregion:
+        tasks: "1"
+    perserver:
+      requests:
+        threshold: "2147483647"
+    scanner:
+      caching: "2147483647"
+      timeout:
+        period: "60000"
+      max:
+        result:
+          size: "2097152"
+    keyvalue:
+      maxsize: "10485760"
+    localityCheck:
+      threadPoolSize: "2"
+    operation:
+      timeout: "1200000"
+  server:
+    keyvalue:
+      maxsize: "10485760"
+    thread:
+      wakefrequency: "10000"
+    versionfile:
+      writeattempts: "3"
+    compactchecker:
+      interval:
+        multiplier: "1000"
+    scanner:
+      max:
+        result:
+          size: "104857600"
+  bulkload:
+    retries:
+      number: "10"
+  balancer:
+    period: "300000"
+  normalizer:
+    period: "300000"
+    min:
+      region:
+        count: "3"
+  regions:
+    slop: "0.001"
+    recovery:
+      store:
+        file:
+          ref:
+            count: "-1"
+  hregion:
+    memstore:
+      flush:
+        size: "134217728"
+      block:
+        multiplier: "4"
+      mslab:
+        enabled: "true"
+        chunksize: "2097152"
+        max:
+          allocation: "262144"
+    percolumnfamilyflush:
+      size:
+        lower:
+          bound:
+            min: "16777216"
+    preclose:
+      flush:
+        size: "5242880"
+    max:
+      filesize: "10737418240"
+    majorcompaction:
+      "": "604800000"
+      jitter: "0.50"
+  hstore:
+    compactionThreshold: "3"
+    flusher:
+      count: "2"
+    blockingStoreFiles: "16"
+    blockingWaitTime: "90000"
+    compaction:
+      min:
+        "": "3"
+        size: "134217728"
+      max:
+        "": "10"
+        size: "9223372036854775807"
+      ratio:
+        "": "1.2F"
+        offpeak: "5.0F"
+      kv:
+        max: "10"
+      throughput:
+        lower:
+          bound: "52428800"
+        higher:
+          bound: "104857600"
+    time:
+      to:
+        purge:
+          deletes: "0"
+    bytes:
+      per:
+        checksum: "16384"
+    checksum:
+      algorithm: "CRC32C"
+  offpeak:
+    start:
+      hour: "-1"
+    end:
+      hoır: "-1"
+  storescanner:
+    parallel:
+      seek:
+        enable: "false"
+        threads: "10"
+  bucketcache:
+    ioengine: "NULL"
+    size: "NULL"
+    bucket:
+      sizes: "NULL"
+  rs:
+    cacheblocksonwrite: "false"
+  rpc:
+    timeout: "60000"
+    shortoperation:
+      timeout: "10000"
+    rows:
+      warning:
+        threshold: "5000"
+  cells:
+    scanned:
+      per:
+        heartbeat:
+          check: "10000"
+  superuser: "NULL"
+  auth:
+    key:
+      update:
+        interval: "86400000"
+    token:
+      max:
+        lifetime: "604800000"
+  display:
+    keys: "true"
+  coprocessor:
+    enabled: "true"
+    user:
+      enabled: "true"
+    region:
+      classes: "NULL"
+    master:
+      classses: "NULL"
+    abortonerror: "true"
+  rest:
+    port: "8080"
+    readonly: "false"
+    threads:
+      max: "100"
+      min: "2"
+    support:
+      proxyuser: "false"
+    filter:
+      classes: "org.apache.hadoop.hbase.rest.filter.GzipFilter"
+    csrf:
+      enabled: "false"
+  defaults:
+    for:
+      version:
+        skip: "false"
+  table:
+    lock:
+      enable: "true"
+    max:
+      rowsize: "1073741824"
+  thrift:
+    minWorkerThreads: "16"
+    maxWorkerThreads: "1000"
+    maxQueuedRequests: "1000"
+  wal:
+    dir:
+      perms: "700"
+  data:
+    umask:
+      "": "000"
+      enable: "false"
+  snapshot:
+    enabled: "true"
+    restore:
+      take:
+        failsafe:
+          snapshot: "true"
+      failsafe:
+        name: "hbase-failsafe-{snapshot.name}-{restore.timestamp}"
+    working:
+      dir: "NULL"
+    master:
+      timeout:
+        millis: "300000"
+    region:
+      timeout: "300000"
+  lease:
+    recovery:
+      timeout: "900000"
+      dfs:
+        timeout: "64000"
+  column:
+    max:
+      version: "1"
+  dfs:
+    client:
+      read:
+        shortcircuit:
+          buffer:
+            size: "131072"
+  status:
+    published: "false"
+    publisher:
+      class: "org.apache.hadoop.hbase.master.ClusterStatusPublisher\\$MulticastPublisher"
+    listener:
+      class: "org.apache.hadoop.hbase.client.ClusterStatusListener\\$MulticastListener"
+    multicast:
+      address:
+        ip: "226.1.1.3"
+        port: "16100"
+  dynamic:
+    jars:
+      dir: "=${HBASE_ROOTDIR}/lib"
+  security:
+    authentication: "simple"
+    exec:
+      permission:
+        checks: "false"
+  rest-csrf:
+    browser-useragents-regex: "Mozilla.,Opera."
+    visibility:
+      mutations:
+        checkauths: "false"
+  procedure:
+    regionserver:
+      classes: "NULL"
+    master:
+      classes: "NULL"
+  coordinated:
+    state:
+      manager:
+        class: "org.apache.hadoop.hbase.coordination.ZkCoordinatedStateManager"
+  region:
+    replica:
+      replication:
+        enabled: "false"
+  http:
+    filter:
+      initializers: "org.apache.hadoop.hbase.http.lib.StaticUserWebFilter"
+    max:
+      threads: "16"
+    staticuser:
+      user: "dr.stack"
+  replication:
+    rpc:
+      codec: "org.apache.hadoop.hbase.codec.KeyValueCodecWithTags"
+    source:
+      maxthreads: "10"
+  mob:
+    file:
+      cache:
+        size: "1000"
+    cache:
+      evict:
+        period: "3600"
+        remain:
+          ratio: "0.5f"
+    compaction:
+      mergeable:
+        threshold: "1342177280"
+      batch:
+        size: "100"
+      chore:
+        period: "604800"
+      threads:
+        max: "1"
+    delfile:
+      max:
+        count: "3"
+    compactor:
+      class: "org.apache.hadoop.hbase.mob.compactions.PartitionedMobCompactor"
+
+zookeeper:
+  session:
+    timeout: "90000"
+  znode:
+    parent: "/hbase"
+    acl:
+      parent: "acl"
+
+hfile:
+  block:
+    cache:
+      policy: "LRU"
+      size: "0.4"
+    index:
+      cacheonwrite: "false"
+    bloom:
+      cacheonwrite: "false"
+  index:
+    block:
+      max:
+        size: "131072"
+  format:
+    version: "3"
+
+io:
+  storefile:
+    bloom:
+      block:
+        size: "131072"
+
+hadoop:
+  policy:
+    file: "hbase-policy.xml"
+
+dfs:
+  client:
+    read:
+      shortcircuit: "false"
+  domain:
+    socket:
+      path: "NULL"

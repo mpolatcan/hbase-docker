@@ -1,0 +1,45 @@
+base_dockerfile_template: |
+  ARG HADOOP_VERSION=""
+  ARG JAVA_VERSION=""
+
+  FROM mpolatcan/hadoop:${{HADOOP_VERSION}}-${{JAVA_VERSION}}
+
+  MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
+
+  ENV HBASE_HOME "${{HDUSER_HOME}}/hbase"
+  ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
+      PATH=$PATH:${{HBASE_HOME}}/bin \
+  {env_vars}
+
+  ADD entrypoint.sh ${{HDUSER_HOME}}/hbase_entrypoint.sh
+  ADD config_loader.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
+
+  RUN mkdir -p ${{HBASE_HOME}} && \
+      chmod +x ${{HDUSER_HOME}}/hbase_entrypoint.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
+
+config_loader_sh_template: |
+  #!/usr/bin/env bash
+
+  function load_config() {{
+      if [[ "$2" != "NULL" ]]
+          then
+              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$2</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$3"
+      fi
+  }}
+
+  function load_config_with_opt() {{
+      if [[ "$2" != "NULL" ]]
+          then
+              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$3</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$5"
+      else
+          printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$4</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$5"
+      fi
+  }}
+
+  {load_fn_calls}
+
+config_files:
+  - path: hbase_configs/hbase-site.yml
+    filename: hbase-site.xml
+
+output_dir: ../../base
