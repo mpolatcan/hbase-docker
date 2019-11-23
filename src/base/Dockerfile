@@ -222,5 +222,7 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
 ADD entrypoint.sh ${HDUSER_HOME}/hbase_entrypoint.sh
 ADD config_loader.sh ${HDUSER_HOME}/hbase_config_loader.sh
 
+USER root
+
 RUN mkdir -p ${HBASE_HOME} && \
     chmod +x ${HDUSER_HOME}/hbase_entrypoint.sh ${HDUSER_HOME}/hbase_config_loader.sh

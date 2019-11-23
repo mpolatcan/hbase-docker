@@ -2,7 +2,7 @@ base_dockerfile_template: |
   ARG HADOOP_VERSION=""
   ARG JAVA_VERSION=""
 
-  FROM mpolatcan/hadoop:${{HADOOP_VERSION}}-${{JAVA_VERSION}}
+  FROM mpolatcan/hadoop:${{HADOOP_VERSION}}-java${{JAVA_VERSION}}
 
   MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
@@ -14,6 +14,8 @@ base_dockerfile_template: |
   ADD entrypoint.sh ${{HDUSER_HOME}}/hbase_entrypoint.sh
   ADD config_loader.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
 
+  USER root
+
   RUN mkdir -p ${{HBASE_HOME}} && \
       chmod +x ${{HDUSER_HOME}}/hbase_entrypoint.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
 
@@ -23,16 +25,16 @@ config_loader_sh_template: |
   function load_config() {{
       if [[ "$2" != "NULL" ]]
           then
-              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$2</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$3"
+              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$2</value>\n\t</property>\n" >> "${{HBASE_CONF_DIR}}/$3"
       fi
   }}
 
   function load_config_with_opt() {{
       if [[ "$2" != "NULL" ]]
           then
-              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$3</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$5"
+              printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$3</value>\n\t</property>\n" >> "${{HBASE_CONF_DIR}}/$5"
       else
-          printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$4</value>\n\t</property>\n" >> "${{HADOOP_CONF_DIR}}/$5"
+          printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$4</value>\n\t</property>\n" >> "${{HBASE_CONF_DIR}}/$5"
       fi
   }}
 

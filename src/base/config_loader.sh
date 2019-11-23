@@ -3,20 +3,20 @@
 function load_config() {
     if [[ "$2" != "NULL" ]]
         then
-            printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$2</value>\n\t</property>\n" >> "${HADOOP_CONF_DIR}/$3"
+            printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$2</value>\n\t</property>\n" >> "${HBASE_CONF_DIR}/$3"
     fi
 }
 
 function load_config_with_opt() {
     if [[ "$2" != "NULL" ]]
         then
-            printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$3</value>\n\t</property>\n" >> "${HADOOP_CONF_DIR}/$5"
+            printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$3</value>\n\t</property>\n" >> "${HBASE_CONF_DIR}/$5"
     else
-        printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$4</value>\n\t</property>\n" >> "${HADOOP_CONF_DIR}/$5"
+        printf "\t<property>\n\t\t<name>$1</name>\n\t\t<value>$4</value>\n\t</property>\n" >> "${HBASE_CONF_DIR}/$5"
     fi
 }
 
-printf "<configuration>\n" > "${HADOOP_CONF_DIR}/hbase-site.xml"
+printf "<configuration>\n" > "${HBASE_CONF_DIR}/hbase-site.xml"
 load_config "hbase.tmp.dir" "${HBASE_TMP_DIR}" "hbase-site.xml"
 load_config "hbase.rootdir" "${HBASE_TMP_DIR}/hbase" "hbase-site.xml"
 load_config "hbase.rootdir.perms" "${HBASE_ROOTDIR_PERMS}" "hbase-site.xml"
@@ -233,5 +233,5 @@ load_config "io.storefile.bloom.block.size" "${IO_STOREFILE_BLOOM_BLOCK_SIZE}" "
 load_config "hadoop.policy.file" "${HADOOP_POLICY_FILE}" "hbase-site.xml"
 load_config "dfs.client.read.shortcircuit" "${DFS_CLIENT_READ_SHORTCIRCUIT}" "hbase-site.xml"
 load_config "dfs.domain.socket.path" "${DFS_DOMAIN_SOCKET_PATH}" "hbase-site.xml"
-printf "</configuration>" >> "${HADOOP_CONF_DIR}/hbase-site.xml"
+printf "</configuration>" >> "${HBASE_CONF_DIR}/hbase-site.xml"
 
