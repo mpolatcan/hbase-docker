@@ -32,5 +32,3 @@ load_configs
 
 # Start HBase Daemons
 [[ "${HBASE_DAEMONS}" != "NULL" ]] && start_daemons
-
-tail -f /dev/null
