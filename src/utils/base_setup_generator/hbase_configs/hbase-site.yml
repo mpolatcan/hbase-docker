@@ -1,8 +1,8 @@
 hbase:
   tmp:
-    dir: "${HBASE_HOME}/tmp"
+    dir: "=${HBASE_HOME}/tmp"
   rootdir:
-    "": "=${HBASE_TMP_DIR}/hbase_root"
+    "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}"
     perms: "700"
   cluster:
     distributed: "false"
@@ -19,12 +19,14 @@ hbase:
     property:
       initLimit: "10"
       syncLimit: "5"
-      dataDir: "=${HBASE_TMP_DIR}/zookeeper"
+      dataDir: "=${HBASE_HOME}/zookeeper"
       clientPort: "2181"
       maxClientCnxns: "300"
   local:
-    dir: "=${HBASE_TMP_DIR}/local/"
+    dir: "=${HBASE_HOME}/local"
   master:
+    "": "?${HBASE_MASTER_HOSTNAME},${HBASE_MASTER_HOSTNAME}:${HBASE_MASTER_PORT},${HOSTNAME}:${HBASE_MASTER_PORT}"
+    hostname: "NULL"
     port: "16000"
     info:
       port: "16010"
@@ -70,7 +72,7 @@ hbase:
           interval: "1200000"
   regionserver:
     hostname:
-      "": "NULL"
+      "": "?${HBASE_REGIONSERVER_HOSTNAME},${HBASE_REGIONSERVER_HOSTNAME},${HOSTNAME}"
       disable:
         master:
           reversedns: "false"
@@ -495,9 +497,15 @@ hadoop:
     file: "hbase-policy.xml"
 
 dfs:
+  namenode:
+    hostname: "NULL"
+    rpc-port: "9000"
   client:
     read:
       shortcircuit: "false"
   domain:
     socket:
       path: "NULL"
+
+fs:
+  prefix: "hdfs://"
