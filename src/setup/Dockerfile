@@ -14,3 +14,4 @@ RUN wget ${HBASE_DOWNLOAD_LINK} && \
 
 USER hduser
 WORKDIR ${HDUSER_HOME}
+ENTRYPOINT ["./hbase_entrypoint.sh"]

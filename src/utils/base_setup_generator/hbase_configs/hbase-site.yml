@@ -1,8 +1,8 @@
 hbase:
   tmp:
-    dir: ""
+    dir: "${HBASE_HOME}/tmp"
   rootdir:
-    "": "=${HBASE_TMP_DIR}/hbase"
+    "": "=${HBASE_TMP_DIR}/hbase_root"
     perms: "700"
   cluster:
     distributed: "false"

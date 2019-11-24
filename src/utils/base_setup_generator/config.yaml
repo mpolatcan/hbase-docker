@@ -9,6 +9,7 @@ base_dockerfile_template: |
   ENV HBASE_HOME "${{HDUSER_HOME}}/hbase"
   ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
       PATH=$PATH:${{HBASE_HOME}}/bin \
+      HBASE_DAEMONS="NULL" \
   {env_vars}
 
   ADD entrypoint.sh ${{HDUSER_HOME}}/hbase_entrypoint.sh
