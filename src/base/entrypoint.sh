@@ -27,7 +27,10 @@ function load_configs() {
     fi
 }
 
-# Start Hadoop Daemons
+# Start Loading configs of HBase
+load_configs
+
+# Start HBase Daemons
 [[ "${HBASE_DAEMONS}" != "NULL" ]] && start_daemons
 
 tail -f /dev/null
