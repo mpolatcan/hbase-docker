@@ -18,7 +18,7 @@ function load_config_with_opt() {
 
 printf "<configuration>\n" > "${HBASE_CONF_DIR}/hbase-site.xml"
 load_config "hbase.tmp.dir" "${HBASE_HOME}/tmp" "hbase-site.xml"
-load_config "hbase.rootdir" "${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}" "hbase-site.xml"
+load_config "hbase.rootdir" "${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}/hbase" "hbase-site.xml"
 load_config "hbase.rootdir.perms" "${HBASE_ROOTDIR_PERMS}" "hbase-site.xml"
 load_config "hbase.cluster.distributed" "${HBASE_CLUSTER_DISTRIBUTED}" "hbase-site.xml"
 load_config "hbase.zookeeper.quorum" "${HBASE_ZOOKEEPER_QUORUM}" "hbase-site.xml"

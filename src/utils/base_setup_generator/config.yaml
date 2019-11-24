@@ -10,7 +10,7 @@ base_dockerfile_template: |
   ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
       PATH=$PATH:${{HBASE_HOME}}/bin \
       HBASE_DAEMONS="NULL" \
-      HBASE_MANAGES_ZK="true" \
+      HBASE_MANAGES_ZK="false" \
       HBASE_HEAP_SIZE="NULL" \
       HBASE_OFFHEAP_SIZE="NULL" \
   {env_vars}

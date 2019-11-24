@@ -2,10 +2,10 @@ hbase:
   tmp:
     dir: "=${HBASE_HOME}/tmp"
   rootdir:
-    "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}"
+    "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}/hbase"
     perms: "700"
   cluster:
-    distributed: "false"
+    distributed: "true"
   zookeeper:
     quorum: "localhost"
     recovery:
