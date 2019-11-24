@@ -7,12 +7,20 @@ services:
     environment:
       HBASE_DAEMONS: |
         master
+      HBASE_MANAGES_ZK: "false"
+      DFS_NAMENODE_HOSTNAME: hdfs-master
+      HBASE_ZK_QUORUM: zk1,zk2,zk3
+    ports:
+      - 16010:16010
 
   hbase-regionserver:
     image: mpolatcan/hbase:2.2.2-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
+      HBASE_MANAGES_ZK: "false"
+      HBASE_MASTER_HOSTNAME: hbase-master
+      HBASE_ZK_QUORUM: zk1,zk2,zk3
 
   hdfs-master:
     image: mpolatcan/hadoop:3.2.1-java8
@@ -45,3 +53,38 @@ services:
       - 8042 # Nodemanager UI Port
     depends_on:
       - hdfs-master
+
+  # -------------------------------- ZOOKEEPER QUORUM ------------------------------------------
+  zk1:
+    image: zookeeper
+    restart: always
+    container_name: zk1
+    hostname: zk1
+    ports:
+      - 2181:2181
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=0.0.0.0:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=zk3:2888:3888;2181
+
+  zk2:
+    image: zookeeper
+    restart: always
+    hostname: zk2
+    container_name: zk2
+    ports:
+      - 2182:2181
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zk1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zk3:2888:3888;2181
+
+  zk3:
+    image: zookeeper
+    restart: always
+    hostname: zk3
+    container_name: zk3
+    ports:
+      - 2183:2181
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zk1:2888:3888;2181 server.2=zk2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+  # -------------------------------------------------------------------------------------------
