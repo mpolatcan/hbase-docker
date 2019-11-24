@@ -1,10 +1,10 @@
-ARG HADOOP_VERSION=""
 ARG JAVA_VERSION=""
 
-FROM mpolatcan/hadoop:${HADOOP_VERSION}-java${JAVA_VERSION}
+FROM mpolatcan/openjdk:${JAVA_VERSION}
 
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
+ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME "${HDUSER_HOME}/hbase"
 ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
     PATH=$PATH:${HBASE_HOME}/bin \
@@ -222,7 +222,19 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
 ADD entrypoint.sh ${HDUSER_HOME}/hbase_entrypoint.sh
 ADD config_loader.sh ${HDUSER_HOME}/hbase_config_loader.sh
 
-USER root
-
-RUN mkdir -p ${HBASE_HOME} && \
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends procps \
+                                               nano \
+                                               wget \
+                                               rsync \
+                                               gcc \
+                                               g++ \
+                                               unzip \
+                                               iputils-ping \
+                                               telnet \
+                                               net-tools && \
+    rm -rf /var/lib/apt/lists/* && \
+    addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
+    mkdir -p ${HBASE_HOME} && \
+    chown -R hduser:hadoop ${HDUSER_HOME} && \
     chmod +x ${HDUSER_HOME}/hbase_entrypoint.sh ${HDUSER_HOME}/hbase_config_loader.sh
