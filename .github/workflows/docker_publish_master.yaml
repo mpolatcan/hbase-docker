@@ -21,6 +21,8 @@ jobs:
           --build-arg HADOOP_VERSION=${{matrix.hadoop_version}}
           --build-arg JAVA_VERSION=${{matrix.java_version}}
           src/base
+      - run: docker push ${{secrets.DOCKER_USERNAME}}/${{matrix.repository}}:base-hadoop-${{matrix.hadoop_version}}-java${{matrix.java_version}}
+      - run: docker rmi ${{secrets.DOCKER_USERNAME}}/${{matrix.repository}}:base-hadoop-${{matrix.hadoop_version}}-java${{matrix.java_version}}
 
   build-setup-image:
     runs-on: ubuntu-latest
