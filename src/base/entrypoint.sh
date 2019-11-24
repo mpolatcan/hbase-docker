@@ -3,11 +3,11 @@
 function start_daemons() {
   for daemon in ${HBASE_DAEMONS[@]}; do
       # Start current daemon
-      hbase-daemon.sh start $daemon
+      hbase-daemon.sh autostart $daemon
   done
 
   if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
-      hbase-daemon.sh start zookeeper
+      hbase-daemon.sh autostart zookeeper
   fi
 }
 
@@ -32,3 +32,5 @@ load_configs
 
 # Start HBase Daemons
 [[ "${HBASE_DAEMONS}" != "NULL" ]] && start_daemons
+
+tail -f /dev/null
