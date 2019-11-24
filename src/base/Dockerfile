@@ -1,6 +1,6 @@
 ARG JAVA_VERSION=""
 
-FROM mpolatcan/openjdk:${JAVA_VERSION}
+FROM openjdk:${JAVA_VERSION}-slim
 
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
