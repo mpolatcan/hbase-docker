@@ -149,8 +149,6 @@ hbase:
     storefile:
       refresh:
         period: "0"
-    wal:
-      codec: "org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec"
   ipc:
     server:
       callqueue:
@@ -315,8 +313,6 @@ hbase:
         threshold: "5000"
     protection: "NULL"
     engine: "NULL"
-    controllerfactory:
-      class: "org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory"
   cells:
     scanned:
       per:
@@ -362,7 +358,7 @@ hbase:
   defaults:
     for:
       version:
-        skip: "true"
+        skip: "false"
   table:
     lock:
       enable: "true"
@@ -481,11 +477,6 @@ hbase:
     replica:
       replication:
         enabled: "false"
-    server:
-      rpc:
-        scheduler:
-          factory:
-            class: "org.apache.hadoop.hbase.ipc.PhoenixRpcSchedulerFactory"
   http:
     filter:
       initializers: "org.apache.hadoop.hbase.http.lib.StaticUserWebFilter"
