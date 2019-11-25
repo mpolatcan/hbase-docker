@@ -14,7 +14,7 @@ RUN wget ${HBASE_DOWNLOAD_LINK} && \
     tar -xvzf apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin.tar.gz -C ${HDUSER_HOME} && \
     mv ${HDUSER_HOME}/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
     mv ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin/* ${PHOENIX_HOME} && \
-    cp ${PHOENIX_HOME}/phoenix-*.jar ${HBASE_HOME}/lib && \
+    cp ${PHOENIX_HOME}/phoenix-5.0.0-HBase-2.0-server.jar ${HBASE_HOME}/lib && \
     chown -R hduser:hadoop ${HDUSER_HOME} && \
     rm -r ${HDUSER_HOME}/hbase-${HBASE_VERSION} && \
     rm -r ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin && \
