@@ -1,14 +1,16 @@
 #!/bin/bash
 
-function start_daemons() {
-  for daemon in ${HBASE_DAEMONS[@]}; do
-      # Start current daemon
-      hbase-daemon.sh start $daemon
+function is_hdfs_ready() {
+  nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+
+  echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
+
+  until [[ $? -eq 0 ]]; do
+    sleep 1
+    nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
   done
 
-  if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
-      hbase-daemon.sh start zookeeper
-  fi
+  echo "Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready. Now starting HBase daemons..."
 }
 
 function load_configs() {
@@ -27,18 +29,23 @@ function load_configs() {
     fi
 }
 
+
+function start_daemons() {
+  for daemon in ${HBASE_DAEMONS[@]}; do
+      # Start current daemon
+      hbase-daemon.sh start $daemon
+  done
+
+  if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
+      hbase-daemon.sh start zookeeper
+  fi
+}
+
+# Await HDFS is ready
+is_hdfs_ready
+
 # Start Loading configs of HBase
 load_configs
-
-nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
-
-until [[ $? -eq 0 ]]; do
-  echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
-  sleep 1
-  nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
-done
-
-echo "Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready. Now starting HBase daemons..."
 
 # Start HBase Daemons
 [[ "${HBASE_DAEMONS}" != "NULL" ]] && start_daemons
