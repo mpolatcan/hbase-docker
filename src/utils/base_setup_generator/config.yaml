@@ -13,7 +13,7 @@ base_dockerfile_template: |
       HBASE_MANAGES_ZK="false" \
       HBASE_HEAP_SIZE="NULL" \
       HBASE_OFFHEAP_SIZE="NULL" \
-      DFS_NAMENODE_RETRY_INTERVAL="5" \
+      DFS_NAMENODE_CONN_RETRY_INTERVAL="5" \
   {env_vars}
 
   ADD entrypoint.sh ${{HDUSER_HOME}}/hbase_entrypoint.sh
