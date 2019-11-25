@@ -40,6 +40,8 @@ function start_daemons() {
   if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
       hbase-daemon.sh start zookeeper
   fi
+
+  queryserver.py start
 }
 
 # Await HDFS is ready

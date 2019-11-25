@@ -7,6 +7,8 @@ services:
     environment:
       HBASE_DAEMONS: |
         master
+        thrift
+        rest
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
     ports:
@@ -27,7 +29,7 @@ services:
     hostname: hdfs-master
     environment:
       HADOOP_DAEMONS: |
-          namenode
+        namenode
     ports:
       - 9870:9870 # Namenode UI
       - 9868:9868 # Secondarynamenode UI Port
@@ -37,7 +39,7 @@ services:
     image: mpolatcan/hadoop:3.2.1-java8
     environment:
       HADOOP_DAEMONS: |
-          datanode
+        datanode
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
     ports:
       - 9864 # Datanode UI Port
