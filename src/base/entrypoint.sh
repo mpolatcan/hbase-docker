@@ -30,11 +30,12 @@ function load_configs() {
 # Start Loading configs of HBase
 load_configs
 
-result=$(nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT})
-until [[ "$result" -eq "0" ]]; do
+nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+
+until [[ $? -eq 0 ]]; do
   echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
   sleep 1
-  result=$(nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT})
+  nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
 done
 
 echo "Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready. Now starting HBase daemons..."
