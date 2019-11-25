@@ -8,7 +8,7 @@ ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME="${HDUSER_HOME}/hbase" \
     PHOENIX_HOME="${HDUSER_HOME}/phoenix"
 ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
-    PATH=$PATH:${HBASE_HOME}/bin \
+    PATH=$PATH:${HBASE_HOME}/bin:${PHOENIX_HOME}/bin \
     HBASE_DAEMONS="NULL" \
     HBASE_MANAGES_ZK="false" \
     HBASE_HEAP_SIZE="NULL" \
@@ -317,7 +317,8 @@ RUN apt-get update && \
                                                iputils-ping \
                                                telnet \
                                                netcat \
-                                               net-tools && \
+                                               net-tools \
+                                               python && \
     rm -rf /var/lib/apt/lists/* && \
     addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} && \

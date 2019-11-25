@@ -1,21 +1,19 @@
 version: "3"
 services:
   hbase-master:
-    image: mpolatcan/hbase:2.1.7-java8
+    image: mpolatcan/hbase:2.2.2-java8
     container_name: hbase-master
     hostname: hbase-master
     environment:
       HBASE_DAEMONS: |
         master
-        rest
-        thrift
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
     ports:
       - 16010:16010
 
   hbase-regionserver:
-    image: mpolatcan/hbase:2.1.7-java8
+    image: mpolatcan/hbase:2.2.2-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
