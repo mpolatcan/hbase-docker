@@ -64,7 +64,5 @@ config_loader_sh_template: |
 config_files:
   - path: hbase_configs/hbase-site.yml
     filename: hbase-site.xml
-  - path: hbase_configs/phoenix.yml
-    filename: hbase-site.xml
 
 output_dir: ../../base

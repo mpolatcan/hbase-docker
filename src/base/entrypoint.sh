@@ -1,5 +1,14 @@
 #!/bin/bash
 
+declare -A daemons
+
+daemons[queryserver]=$(eval "queryserver.py start")
+daemons[master]=$(eval "hbase-daemons.sh start master")
+daemons[regionserver]=$(eval "hbase-daemons.sh start regionserver")
+daemons[rest]=$(eval "hbase-daemons.sh start rest")
+daemons[thrift]=$(eval "hbase-daemons.sh start thrift")
+daemons[zookeeper]=$(eval "hbase-daemons.sh start zookeeper")
+
 function is_hdfs_ready() {
   nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
   result=$?
@@ -33,12 +42,14 @@ function load_configs() {
 
 function start_daemons() {
   for daemon in ${HBASE_DAEMONS[@]}; do
+      echo "Starting HBase daemons \"$daemon\"..."
       # Start current daemon
-      hbase-daemon.sh start $daemon
+      ${daemons[$daemon]}
   done
 
   if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
-      hbase-daemon.sh start zookeeper
+      echo "Starting local Zookeeper..."
+      ${daemons[zookeeper]}
   fi
 }
 

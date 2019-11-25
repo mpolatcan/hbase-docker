@@ -266,9 +266,6 @@ load_config "dfs.client.read.shortcircuit.skip.checksum" "${DFS_CLIENT_READ_SHOR
 load_config "dfs.client.read.shortcircuit.buffer.size" "${DFS_CLIENT_READ_SHORTCIRCUIT_BUFFER_SIZE}" "hbase-site.xml"
 load_config "dfs.domain.socket.path" "${DFS_DOMAIN_SOCKET_PATH}" "hbase-site.xml"
 load_config "fs.prefix" "${FS_PREFIX}" "hbase-site.xml"
-printf "</configuration>" >> "${HBASE_CONF_DIR}/hbase-site.xml"
-
-printf "<configuration>\n" > "${HBASE_CONF_DIR}/hbase-site.xml"
 load_config "phoenix.query.timeoutMs" "${PHOENIX_QUERY_TIMEOUTMS}" "hbase-site.xml"
 load_config "phoenix.query.keepAliveMs" "${PHOENIX_QUERY_KEEPALIVEMS}" "hbase-site.xml"
 load_config "phoenix.query.threadPoolSize" "${PHOENIX_QUERY_THREADPOOLSIZE}" "hbase-site.xml"
