@@ -1,0 +1,80 @@
+phoenix:
+  query:
+    timeoutMs: "600000"
+    keepAliveMs: "60000"
+    threadPoolSize: "128"
+    queueSize: "5000"
+    spoolThresholdBytes: "20971520"
+    maxSpoolToDiskBytes: "1024000000"
+    maxGlobalMemoryPercentage: "15"
+    maxGlobalMemorySize: "NULL"
+    maxGlobalMemoryWaitMs: "10000"
+    maxTenantMemoryPercentage: "100"
+    dateFormat: "yyyy-MM-dd HH:mm:ss.SSS"
+    dateFormatTimeZone: "GMT"
+    timeFormat: "yyyy-MM-dd HH:mm:ss.SSS"
+    timestampFormat: "yyyy-MM-dd HH:mm:ss.SSS"
+    numberFormat: "#,##0.###"
+    maxServerCacheBytes: "104857600"
+    useIndexes: "true"
+    force:
+      rowkeyorder: "true"
+  stats:
+    guidepost:
+      width: "104857600"
+      per:
+        region: "NULL"
+    updateFrequency: "900000"
+    minUpdateFrequency: "450000"
+    useCurrentTime: "true"
+  mutate:
+    maxSize: "500000"
+    batchSize: "1000"
+  coprocessor:
+    maxServerCacheTimeToLiveMs: "30000"
+    maxMetaDataCacheTimeToLiveMs: "180000"
+    maxMetaDataCacheSize: "20480000"
+  index:
+    failure:
+      handling:
+        rebuild:
+          "": "true"
+          interval: "10000"
+          overlap:
+            time: "1"
+      block:
+        write: "false"
+    mutableBatchSizeThreshold: "5"
+    maxDataFileSizePerc: "50"
+  schema:
+    dropMetaData: "true"
+  groupby:
+    spillable: "true"
+    spillFiles: "2"
+    maxCacheSize: "102400000"
+    estimatedDistinctValues: "1000"
+  distinct:
+    value:
+      compress:
+        threshold: "1024000"
+  client:
+    maxMetaDataCacheSize: "10240000"
+  sequence:
+    cacheSize: "100"
+  clock:
+    skew:
+      interval: "2000"
+  connection:
+    autoCommit: "false"
+  table:
+    default:
+      store:
+        nulls: "false"
+    istransactional:
+      default: "false"
+  transactions:
+    enabled: "false"
+  mapreduce:
+    split:
+      by:
+        stats: "true"

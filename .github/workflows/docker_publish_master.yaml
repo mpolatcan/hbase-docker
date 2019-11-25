@@ -28,6 +28,8 @@ jobs:
       matrix:
         repository: [hbase]
         java_version: [8]
+        phoenix_version: [5.0.0]
+        phoenix_hbase_version: [2.0]
         hbase_version: [2.2.2, 2.1.7, 1.5.0]
     needs: build-base-image
     steps:
@@ -36,6 +38,8 @@ jobs:
       - run: docker build -q
           -t ${{secrets.DOCKER_USERNAME}}/${{matrix.repository}}:${{matrix.hbase_version}}-java${{matrix.java_version}}
           --build-arg HBASE_VERSION=${{matrix.hbase_version}}
+          --build-arg PHOENIX_VERSION=${{matrix.phoenix_version}}
+          --build-arg PHOENIX_HBASE_VERSION=${{matrix.phoenix_hbase_version}}
           --build-arg JAVA_VERSION=${{matrix.java_version}}
           src/setup
       - run: docker push ${{secrets.DOCKER_USERNAME}}/${{matrix.repository}}:${{matrix.hbase_version}}-java${{matrix.java_version}}

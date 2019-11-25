@@ -6,7 +6,8 @@ base_dockerfile_template: |
   MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
   ENV HDUSER_HOME "/home/hduser"
-  ENV HBASE_HOME "${{HDUSER_HOME}}/hbase"
+  ENV HBASE_HOME="${{HDUSER_HOME}}/hbase" \
+      PHOENIX_HOME="${{HDUSER_HOME}}/phoenix"
   ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
       PATH=$PATH:${{HBASE_HOME}}/bin \
       HBASE_DAEMONS="NULL" \
@@ -33,7 +34,7 @@ base_dockerfile_template: |
                                                  net-tools && \
       rm -rf /var/lib/apt/lists/* && \
       addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-      mkdir -p ${{HBASE_HOME}} && \
+      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} && \
       chown -R hduser:hadoop ${{HDUSER_HOME}} && \
       chmod +x ${{HDUSER_HOME}}/hbase_entrypoint.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
 
@@ -61,6 +62,8 @@ config_loader_sh_template: |
 
 config_files:
   - path: hbase_configs/hbase-site.yml
+    filename: hbase-site.xml
+  - path: hbase_configs/phoenix.yml
     filename: hbase-site.xml
 
 output_dir: ../../base

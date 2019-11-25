@@ -7,6 +7,8 @@ services:
     environment:
       HBASE_DAEMONS: |
         master
+        rest
+        thrift
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
     ports:
