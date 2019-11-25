@@ -266,6 +266,7 @@ RUN apt-get update && \
                                                unzip \
                                                iputils-ping \
                                                telnet \
+                                               netcat \
                                                net-tools && \
     rm -rf /var/lib/apt/lists/* && \
     addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
