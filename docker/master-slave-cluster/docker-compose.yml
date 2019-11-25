@@ -1,7 +1,7 @@
 version: "3"
 services:
   hbase-master:
-    image: mpolatcan/hbase:2.2.2-java8
+    image: mpolatcan/hbase:2.1.7-java8
     container_name: hbase-master
     hostname: hbase-master
     environment:
@@ -13,7 +13,7 @@ services:
       - 16010:16010
 
   hbase-regionserver:
-    image: mpolatcan/hbase:2.2.2-java8
+    image: mpolatcan/hbase:2.1.7-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
@@ -28,10 +28,6 @@ services:
     environment:
       HADOOP_DAEMONS: |
           namenode
-          secondarynamenode
-          resourcemanager
-      YARN_SCHEDULER_MINIMUM_ALLOCATION_MB: "128"
-      YARN_SCHEDULER_MAXIMUM_ALLOCATION_MB: "1536"
     ports:
       - 9870:9870 # Namenode UI
       - 9868:9868 # Secondarynamenode UI Port
@@ -42,16 +38,10 @@ services:
     environment:
       HADOOP_DAEMONS: |
           datanode
-          nodemanager
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
-      YARN_RESOURCEMANAGER_HOSTNAME: "hdfs-master"
-      YARN_NODEMANAGER_RESOURCE_MEMORY_MB: "1536"
-      YARN_NODEMANAGER_RESOURCE_CPU_VCORES: "2"
     ports:
       - 9864 # Datanode UI Port
       - 8042 # Nodemanager UI Port
-    depends_on:
-      - hdfs-master
 
   # -------------------------------- ZOOKEEPER QUORUM ------------------------------------------
   zk1:
