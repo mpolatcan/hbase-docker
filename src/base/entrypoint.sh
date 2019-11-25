@@ -2,12 +2,13 @@
 
 function is_hdfs_ready() {
   nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+  result=$?
 
-  echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
-
-  until [[ $? -eq 0 ]]; do
-    sleep 1
+  until [[ $result -eq 0 ]]; do
+    echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
+    sleep ${DFS_NAMENODE_RETRY_INTERVAL}
     nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+    result=$?
   done
 
   echo "Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready. Now starting HBase daemons..."
