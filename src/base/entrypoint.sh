@@ -31,7 +31,7 @@ function load_configs() {
 load_configs
 
 result=$(nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT})
-until [ $result -eq 0 ]; do
+until [[ "$result" -eq "0" ]]; do
   echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
   sleep 1
   result=$(nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT})
