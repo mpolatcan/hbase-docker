@@ -141,6 +141,9 @@ hbase:
         "": "false"
         max_frame_size_in_mb: "2"
       compact: "false"
+      http: "NULL"
+      support:
+        proxyuser: "NULL"
     checksum:
       verify: "true"
     storefile:
@@ -194,6 +197,9 @@ hbase:
       threadPoolSize: "2"
     operation:
       timeout: "1200000"
+    keytab:
+      file: "NULL"
+      principal: "NULL"
   server:
     keyvalue:
       maxsize: "10485760"
@@ -305,6 +311,8 @@ hbase:
     rows:
       warning:
         threshold: "5000"
+    protection: "NULL"
+    engine: "NULL"
   cells:
     scanned:
       per:
@@ -326,6 +334,8 @@ hbase:
       enabled: "true"
     region:
       classes: "NULL"
+    regionserver:
+      classes: "NULL"
     master:
       classses: "NULL"
     abortonerror: "true"
@@ -341,6 +351,10 @@ hbase:
       classes: "org.apache.hadoop.hbase.rest.filter.GzipFilter"
     csrf:
       enabled: "false"
+    keytab:
+      file: "NULL"
+    kerberos:
+      principal: "NULL"
   defaults:
     for:
       version:
@@ -354,9 +368,17 @@ hbase:
     minWorkerThreads: "16"
     maxWorkerThreads: "1000"
     maxQueuedRequests: "1000"
+    keytab:
+      file: "NULL"
+    kerberos:
+      principal: "NULL"
+    dns:
+      interface: "NULL"
+      nameserver: "NULL"
   wal:
     dir:
       perms: "700"
+    provider: "NULL"
   data:
     umask:
       "": "000"
@@ -404,7 +426,19 @@ hbase:
     jars:
       dir: "=${HBASE_ROOTDIR}/lib"
   security:
-    authentication: "simple"
+    authentication:
+      "": "simple"
+      ui: "NULL"
+      spnego:
+        kerberos:
+          principal: "NULL"
+          keytab: "NULL"
+          name:
+            rule: "NULL"
+      signature:
+        secret:
+          file: "NULL"
+    authorization: "NULL"
     exec:
       permission:
         checks: "false"
@@ -418,6 +452,23 @@ hbase:
       classes: "NULL"
     master:
       classes: "NULL"
+    store:
+      wal:
+        periodic:
+          roll:
+            msec: "3600000"
+        roll:
+          threshold: "33554432"
+        warn:
+          threshold: "64"
+        max:
+          retries:
+            before:
+              roll: "100"
+        sync:
+          failure:
+            roll:
+              max: "100"
   coordinated:
     state:
       manager:
@@ -461,6 +512,10 @@ hbase:
         count: "3"
     compactor:
       class: "org.apache.hadoop.hbase.mob.compactions.PartitionedMobCompactor"
+  store:
+    delete:
+      expired:
+        storefile: "NULL"
 
 zookeeper:
   session:
@@ -502,7 +557,12 @@ dfs:
     rpc-port: "9000"
   client:
     read:
-      shortcircuit: "false"
+      shortcircuit:
+        "": "false"
+        skip:
+          checksum: "NULL"
+        buffer:
+          size: "NULL"
   domain:
     socket:
       path: "NULL"
