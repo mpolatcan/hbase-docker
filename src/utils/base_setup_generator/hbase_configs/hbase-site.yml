@@ -635,6 +635,7 @@ phoenix:
     maxMetaDataCacheSize: "10240000"
   sequence:
     cacheSize: "100"
+    saltBuckets: "0"
   clock:
     skew:
       interval: "2000"

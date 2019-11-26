@@ -309,6 +309,7 @@ load_config "phoenix.groupby.estimatedDistinctValues" "${PHOENIX_GROUPBY_ESTIMAT
 load_config "phoenix.distinct.value.compress.threshold" "${PHOENIX_DISTINCT_VALUE_COMPRESS_THRESHOLD}" "hbase-site.xml"
 load_config "phoenix.client.maxMetaDataCacheSize" "${PHOENIX_CLIENT_MAXMETADATACACHESIZE}" "hbase-site.xml"
 load_config "phoenix.sequence.cacheSize" "${PHOENIX_SEQUENCE_CACHESIZE}" "hbase-site.xml"
+load_config "phoenix.sequence.saltBuckets" "${PHOENIX_SEQUENCE_SALTBUCKETS}" "hbase-site.xml"
 load_config "phoenix.clock.skew.interval" "${PHOENIX_CLOCK_SKEW_INTERVAL}" "hbase-site.xml"
 load_config "phoenix.connection.autoCommit" "${PHOENIX_CONNECTION_AUTOCOMMIT}" "hbase-site.xml"
 load_config "phoenix.table.default.store.nulls" "${PHOENIX_TABLE_DEFAULT_STORE_NULLS}" "hbase-site.xml"
