@@ -315,8 +315,6 @@ hbase:
         threshold: "5000"
     protection: "NULL"
     engine: "NULL"
-    controllerfactory:
-      class: "org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory"
   cells:
     scanned:
       per:
@@ -481,11 +479,6 @@ hbase:
     replica:
       replication:
         enabled: "false"
-    server:
-      rpc:
-        scheduler:
-          factory:
-            class: "org.apache.hadoop.hbase.ipc.PhoenixRpcSchedulerFactory"
   http:
     filter:
       initializers: "org.apache.hadoop.hbase.http.lib.StaticUserWebFilter"
