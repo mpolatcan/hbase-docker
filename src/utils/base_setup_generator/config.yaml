@@ -40,7 +40,8 @@ base_dockerfile_template: |
                                                  python && \
       rm -rf /var/lib/apt/lists/* && \
       addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{HADOOP_LIBS_HOME}}/{{native,jar}} && \
+      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{HADOOP_LIBS_HOME}} && \
+      mkdir -p ${{HADOOP_LIBS_HOME}}/native ${{HADOOP_LIBS_HOME}}/jar && \
       wget ${{HADOOP_DOWNLOAD_LINK}} && \
       tar -xvzf hadoop-${{HADOOP_VERSION}}.tar.gz -C ${{HDUSER_HOME}} && \
       mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/lib/native/* ${{HADOOP_LIBS_HOME}}/native && \
