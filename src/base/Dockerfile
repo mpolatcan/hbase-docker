@@ -329,12 +329,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${HADOOP_LIBS_HOME} && \
-    mkdir -p ${HADOOP_LIBS_HOME}/native ${HADOOP_LIBS_HOME}/jar && \
+    mkdir -p ${HADOOP_LIBS_HOME}/native ${HADOOP_LIBS_HOME}/tmp_jar && \
     wget ${HADOOP_DOWNLOAD_LINK} && \
     tar -xvzf hadoop-${HADOOP_VERSION}.tar.gz -C ${HDUSER_HOME} && \
     mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${HADOOP_LIBS_HOME}/native && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HADOOP_LIBS_HOME}/jar && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HADOOP_LIBS_HOME}/jar && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HADOOP_LIBS_HOME}/tmp_jar && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HADOOP_LIBS_HOME}/tmp_jar && \
     rm -r ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
     rm hadoop-${HADOOP_VERSION}.tar.gz && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} && \
