@@ -331,9 +331,9 @@ RUN apt-get update && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${HADOOP_LIBS_HOME}/{native,jar} && \
     wget ${HADOOP_DOWNLOAD_LINK} && \
     tar -xvzf hadoop-${HADOOP_VERSION}.tar.gz -C ${HDUSER_HOME} && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${HADOOP_LIBS_HOME}/native && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HADOOP_LIBS_HOME}/jar && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HADOOP_LIBS_HOME}/jar && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${HADOOP_LIBS_HOME}/native/ && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HADOOP_LIBS_HOME}/jar/ && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HADOOP_LIBS_HOME}/jar/ && \
     rm -r ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
     rm hadoop-${HADOOP_VERSION}.tar.gz && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} && \
