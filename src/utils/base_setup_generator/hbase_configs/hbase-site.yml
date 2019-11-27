@@ -379,6 +379,7 @@ hbase:
       nameserver: "NULL"
   wal:
     dir:
+      "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}/hbase"
       perms: "700"
     provider: "NULL"
   data:
@@ -518,6 +519,10 @@ hbase:
     delete:
       expired:
         storefile: "NULL"
+  unsafe:
+    stream:
+      capability:
+        enforce: "false"
 
 zookeeper:
   session:

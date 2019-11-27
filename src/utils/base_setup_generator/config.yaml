@@ -11,10 +11,10 @@ base_dockerfile_template: |
   ENV HDUSER_HOME "/home/hduser"
   ENV HBASE_HOME="${{HDUSER_HOME}}/hbase" \
       PHOENIX_HOME="${{HDUSER_HOME}}/phoenix" \
-      HADOOP_LIBS_HOME="${{HDUSER_HOME}}/hadoop_libs" \
-      LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{HADOOP_LIBS_HOME}}/native
+      HADOOP_LIBS_HOME="${{HDUSER_HOME}}/hadoop_libs"
   ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
       PATH=$PATH:${{HBASE_HOME}}/bin:${{PHOENIX_HOME}}/bin \
+      LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{HADOOP_LIBS_HOME}}/native \
       HBASE_DAEMONS="NULL" \
       HBASE_MANAGES_ZK="false" \
       HBASE_HEAP_SIZE="NULL" \
