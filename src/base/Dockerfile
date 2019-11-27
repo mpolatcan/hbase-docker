@@ -10,8 +10,8 @@ ARG HADOOP_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hadoop/common/hadoop-${H
 ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME="${HDUSER_HOME}/hbase" \
     PHOENIX_HOME="${HDUSER_HOME}/phoenix" \
-    HADOOP_NATIVE_LIBS_HOME="${HDUSER_HOME}/hadoop_native_libs" \
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HADOOP_NATIVE_LIBS_HOME}
+    HADOOP_LIBS_HOME="${HDUSER_HOME}/hadoop_libs" \
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${HADOOP_LIBS_HOME}/native
 ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
     PATH=$PATH:${HBASE_HOME}/bin:${PHOENIX_HOME}/bin \
     HBASE_DAEMONS="NULL" \
@@ -328,12 +328,12 @@ RUN apt-get update && \
                                                python && \
     rm -rf /var/lib/apt/lists/* && \
     addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-    mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${HADOOP_NATIVE_LIBS_HOME} && \
+    mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${HADOOP_LIBS_HOME}/{native,jar} && \
     wget ${HADOOP_DOWNLOAD_LINK} && \
     tar -xvzf hadoop-${HADOOP_VERSION}.tar.gz -C ${HDUSER_HOME} && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${HADOOP_NATIVE_LIBS_HOME} && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HBASE_HOME}/lib && \
-    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HBASE_HOME}/lib && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${HADOOP_LIBS_HOME}/native && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/*.jar ${HADOOP_LIBS_HOME}/jar && \
+    mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/share/hadoop/common/lib/*.jar ${HADOOP_LIBS_HOME}/jar && \
     rm -r ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
     rm hadoop-${HADOOP_VERSION}.tar.gz && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} && \
