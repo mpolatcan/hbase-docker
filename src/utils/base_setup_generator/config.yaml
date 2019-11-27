@@ -7,14 +7,15 @@ base_dockerfile_template: |
 
   ARG HADOOP_VERSION=""
   ARG HADOOP_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hadoop/common/hadoop-${{HADOOP_VERSION}}/hadoop-${{HADOOP_VERSION}}.tar.gz"
+  ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/3.2.0-incubating/htrace-core-3.2.0-incubating.jar"
 
   ENV HDUSER_HOME "/home/hduser"
   ENV HBASE_HOME="${{HDUSER_HOME}}/hbase" \
       PHOENIX_HOME="${{HDUSER_HOME}}/phoenix" \
-      HADOOP_LIBS_HOME="${{HDUSER_HOME}}/hadoop_libs"
+      EXT_LIBS_HOME="${{HDUSER_HOME}}/ext_libs"
   ENV HBASE_CONF_DIR="${{HBASE_HOME}}/conf" \
       PATH=$PATH:${{HBASE_HOME}}/bin:${{PHOENIX_HOME}}/bin \
-      LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{HADOOP_LIBS_HOME}}/native \
+      LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{EXT_LIBS_HOME}}/hadoop_native_libs \
       HBASE_DAEMONS="NULL" \
       HBASE_MANAGES_ZK="false" \
       HBASE_HEAP_SIZE="NULL" \
@@ -40,13 +41,12 @@ base_dockerfile_template: |
                                                  python && \
       rm -rf /var/lib/apt/lists/* && \
       addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{HADOOP_LIBS_HOME}} && \
-      mkdir -p ${{HADOOP_LIBS_HOME}}/native ${{HADOOP_LIBS_HOME}}/tmp_jar && \
-      wget ${{HADOOP_DOWNLOAD_LINK}} && \
+      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{EXT_LIBS_HOME}} && \
+      mkdir -p ${{EXT_LIBS_HOME}}/hadoop_native_libs ${{EXT_LIBS_HOME}}/htrace && \
+      wget ${{HADOOP_DOWNLOAD_LINK}} ${{HTRACE_DOWNLOAD_LINK}} && \
       tar -xvzf hadoop-${{HADOOP_VERSION}}.tar.gz -C ${{HDUSER_HOME}} && \
-      mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/lib/native/* ${{HADOOP_LIBS_HOME}}/native && \
-      mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/share/hadoop/common/*.jar ${{HADOOP_LIBS_HOME}}/tmp_jar && \
-      mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/share/hadoop/common/lib/*.jar ${{HADOOP_LIBS_HOME}}/tmp_jar && \
+      mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/lib/native/* ${{EXT_LIBS_HOME}}/hadoop_native_libs && \
+      mv htrace-core-3.2.0-incubating.jar ${{EXT_LIBS_HOME}}/htrace && \
       rm -r ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}} && \
       rm hadoop-${{HADOOP_VERSION}}.tar.gz && \
       mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} && \
