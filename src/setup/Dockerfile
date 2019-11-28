@@ -11,9 +11,8 @@ ARG PHOENIX_DOWNLOAD_LINK="http://www-eu.apache.org/dist/phoenix/apache-phoenix-
 # Download HBase and Phoenix packages
 RUN wget ${HBASE_DOWNLOAD_LINK} ${PHOENIX_DOWNLOAD_LINK} && \
     # Extract HBase and Phoenix packages
-    tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz \
-              apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin.tar.gz \
-              -C ${HDUSER_HOME} && \
+    tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz -C ${HDUSER_HOME} && \
+    tar -xvzf apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin.tar.gz -C ${HDUSER_HOME} && \
     # Move HBase and Phoenix packages's contents to their predefined folders
     mv ${HDUSER_HOME}/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
     mv ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin/* ${PHOENIX_HOME} && \
