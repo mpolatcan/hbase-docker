@@ -522,7 +522,7 @@ hbase:
   unsafe:
     stream:
       capability:
-        enforce: "false"
+        enforce: "true"
 
 zookeeper:
   session:
@@ -658,3 +658,34 @@ phoenix:
     split:
       by:
         stats: "true"
+  queryserver:
+    http:
+      port: "8765"
+      keytab:
+        file: "NULL"
+      kerberos:
+        principal: "NULL"
+    metafactory:
+      class: "org.apache.phoenix.queryserver.server.PhoenixMetaFactoryImpl"
+    serialization: "PROTOBUF"
+    keytab:
+      file: "NULL"
+    kerberos:
+      principal: "NULL"
+      http:
+        principal: "NULL"
+      allowed:
+        realms: "NULL"
+    dns:
+      nameserver: "NULL"
+      interface: "NULL"
+    loadbalancer:
+      enabled: "false"
+    base:
+      path: "/phoenix"
+    service:
+      name: "queryserver"
+    zookeeper:
+      acl:
+        username: "phoenix"
+        password: "phoenix"

@@ -27,6 +27,7 @@ base_dockerfile_template: |
   ADD config_loader.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
 
   RUN apt-get update && \
+      # Install core dependencies
       apt-get -y install --no-install-recommends procps \
                                                  nano \
                                                  wget \
@@ -39,18 +40,25 @@ base_dockerfile_template: |
                                                  netcat \
                                                  net-tools \
                                                  python && \
+      # Remove apt cache
       rm -rf /var/lib/apt/lists/* && \
+      # Add Hadoop group and user to system
       addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{EXT_LIBS_HOME}} && \
-      mkdir -p ${{EXT_LIBS_HOME}}/hadoop_native_libs ${{EXT_LIBS_HOME}}/htrace && \
+      # Create directories for installations of HBase, Phoenix and
+      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} ${{EXT_LIBS_HOME}} ${{EXT_LIBS_HOME}}/hadoop_native_libs ${{EXT_LIBS_HOME}}/htrace && \
+      # Download Hadoop to take native libraries of Hadoop and HTrace library which it is dependency of Apache Phoenix
       wget ${{HADOOP_DOWNLOAD_LINK}} ${{HTRACE_DOWNLOAD_LINK}} && \
+      # Extract Hadoop from tar file
       tar -xvzf hadoop-${{HADOOP_VERSION}}.tar.gz -C ${{HDUSER_HOME}} && \
+      # Move Hadoop native libraries to defined folder which its location /home/hduser/ext_libs/hadoop_native_libs
       mv ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}}/lib/native/* ${{EXT_LIBS_HOME}}/hadoop_native_libs && \
+      # Move HTrace jar file to defined folder which its location /home/hduser/ext_libs/htrace
       mv htrace-core-3.2.0-incubating.jar ${{EXT_LIBS_HOME}}/htrace && \
-      rm -r ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}} && \
-      rm hadoop-${{HADOOP_VERSION}}.tar.gz && \
-      mkdir -p ${{HBASE_HOME}} ${{PHOENIX_HOME}} && \
+      # Remove remaining Hadoop files
+      rm -r hadoop-${{HADOOP_VERSION}}.tar.gz ${{HDUSER_HOME}}/hadoop-${{HADOOP_VERSION}} && \
+      # Set owner of folder /home/hduser to Hadoop user which its name hduser
       chown -R hduser:hadoop ${{HDUSER_HOME}} && \
+      # Make scripts executable
       chmod +x ${{HDUSER_HOME}}/hbase_entrypoint.sh ${{HDUSER_HOME}}/hbase_config_loader.sh
 
 

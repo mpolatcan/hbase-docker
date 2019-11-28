@@ -5,8 +5,9 @@ FROM openjdk:${JAVA_VERSION}-slim
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
 ARG HADOOP_VERSION=""
+ARG HTRACE_VERSION=""
 ARG HADOOP_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz"
-ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/3.2.0-incubating/htrace-core-3.2.0-incubating.jar"
+ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/${HTRACE_VERSION}-incubating/htrace-core-${HTRACE_VERSION}-incubating.jar"
 
 ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME="${HDUSER_HOME}/hbase" \
@@ -243,7 +244,7 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
 	HBASE_MOB_DELFILE_MAX_COUNT="3" \
 	HBASE_MOB_COMPACTOR_CLASS="org.apache.hadoop.hbase.mob.compactions.PartitionedMobCompactor" \
 	HBASE_STORE_DELETE_EXPIRED_STOREFILE="NULL" \
-	HBASE_UNSAFE_STREAM_CAPABILITY_ENFORCE="false" \
+	HBASE_UNSAFE_STREAM_CAPABILITY_ENFORCE="true" \
 	ZOOKEEPER_SESSION_TIMEOUT="90000" \
 	ZOOKEEPER_ZNODE_PARENT="/hbase" \
 	ZOOKEEPER_ZNODE_ACL_PARENT="acl" \
@@ -310,12 +311,29 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
 	PHOENIX_TABLE_DEFAULT_STORE_NULLS="false" \
 	PHOENIX_TABLE_ISTRANSACTIONAL_DEFAULT="false" \
 	PHOENIX_TRANSACTIONS_ENABLED="false" \
-	PHOENIX_MAPREDUCE_SPLIT_BY_STATS="true"
+	PHOENIX_MAPREDUCE_SPLIT_BY_STATS="true" \
+	PHOENIX_QUERYSERVER_HTTP_PORT="8765" \
+	PHOENIX_QUERYSERVER_HTTP_KEYTAB_FILE="NULL" \
+	PHOENIX_QUERYSERVER_HTTP_KERBEROS_PRINCIPAL="NULL" \
+	PHOENIX_QUERYSERVER_METAFACTORY_CLASS="org.apache.phoenix.queryserver.server.PhoenixMetaFactoryImpl" \
+	PHOENIX_QUERYSERVER_SERIALIZATION="PROTOBUF" \
+	PHOENIX_QUERYSERVER_KEYTAB_FILE="NULL" \
+	PHOENIX_QUERYSERVER_KERBEROS_PRINCIPAL="NULL" \
+	PHOENIX_QUERYSERVER_KERBEROS_HTTP_PRINCIPAL="NULL" \
+	PHOENIX_QUERYSERVER_KERBEROS_ALLOWED_REALMS="NULL" \
+	PHOENIX_QUERYSERVER_DNS_NAMESERVER="NULL" \
+	PHOENIX_QUERYSERVER_DNS_INTERFACE="NULL" \
+	PHOENIX_QUERYSERVER_LOADBALANCER_ENABLED="false" \
+	PHOENIX_QUERYSERVER_BASE_PATH="/phoenix" \
+	PHOENIX_QUERYSERVER_SERVICE_NAME="queryserver" \
+	PHOENIX_QUERYSERVER_ZOOKEEPER_ACL_USERNAME="phoenix" \
+	PHOENIX_QUERYSERVER_ZOOKEEPER_ACL_PASSWORD="phoenix"
 
 ADD entrypoint.sh ${HDUSER_HOME}/hbase_entrypoint.sh
 ADD config_loader.sh ${HDUSER_HOME}/hbase_config_loader.sh
 
 RUN apt-get update && \
+    # Install core dependencies
     apt-get -y install --no-install-recommends procps \
                                                nano \
                                                wget \
@@ -328,16 +346,23 @@ RUN apt-get update && \
                                                netcat \
                                                net-tools \
                                                python && \
+    # Remove apt cache
     rm -rf /var/lib/apt/lists/* && \
+    # Add Hadoop group and user to system
     addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
-    mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${EXT_LIBS_HOME} && \
-    mkdir -p ${EXT_LIBS_HOME}/hadoop_native_libs ${EXT_LIBS_HOME}/htrace && \
+    # Create directories for installations of HBase, Phoenix and
+    mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${EXT_LIBS_HOME} ${EXT_LIBS_HOME}/hadoop_native_libs ${EXT_LIBS_HOME}/htrace && \
+    # Download Hadoop to take native libraries of Hadoop and HTrace library which it is dependency of Apache Phoenix
     wget ${HADOOP_DOWNLOAD_LINK} ${HTRACE_DOWNLOAD_LINK} && \
+    # Extract Hadoop from tar file
     tar -xvzf hadoop-${HADOOP_VERSION}.tar.gz -C ${HDUSER_HOME} && \
+    # Move Hadoop native libraries to defined folder which its location /home/hduser/ext_libs/hadoop_native_libs
     mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${EXT_LIBS_HOME}/hadoop_native_libs && \
-    mv htrace-core-3.2.0-incubating.jar ${EXT_LIBS_HOME}/htrace && \
-    rm -r ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
-    rm hadoop-${HADOOP_VERSION}.tar.gz && \
-    mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} && \
+    # Move HTrace jar file to defined folder which its location /home/hduser/ext_libs/htrace
+    mv htrace-core-${HTRACE_VERSION}-incubating.jar ${EXT_LIBS_HOME}/htrace && \
+    # Remove remaining Hadoop files
+    rm -r hadoop-${HADOOP_VERSION}.tar.gz ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
+    # Set owner of folder /home/hduser to Hadoop user which its name hduser
     chown -R hduser:hadoop ${HDUSER_HOME} && \
+    # Make scripts executable
     chmod +x ${HDUSER_HOME}/hbase_entrypoint.sh ${HDUSER_HOME}/hbase_config_loader.sh
