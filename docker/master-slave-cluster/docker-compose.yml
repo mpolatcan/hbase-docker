@@ -11,6 +11,7 @@ services:
         rest
       DFS_NAMENODE_HOSTNAME: "hdfs-master"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
+      PHOENIX_ENABLED: "true"
     ports:
       - 16010:16010
       - 8765:8765

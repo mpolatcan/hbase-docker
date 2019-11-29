@@ -22,16 +22,11 @@ function load_configs() {
     echo "export HBASE_MANAGES_ZK=${HBASE_MANAGES_ZK}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
 
     if [[ "${HBASE_HEAP_SIZE}" != "NULL" ]]; then
-      echo "export HBASE_HEAPSIZE=${HBASE_HEAP_SIZE}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
+        echo "export HBASE_HEAPSIZE=${HBASE_HEAP_SIZE}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
     fi
 
     if [[ "${HBASE_OFFHEAP_SIZE}" != "NULL" ]]; then
-      echo "export HBASE_OFFHEAPSIZE=${HBASE_OFFHEAP_SIZE}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
-    fi
-
-    # If Apache Phoenix is enabled then start Phoenix Queryserver
-    if [[ "${PHOENIX_ENABLED}" == "true" ]]; then
-        queryserver.py start
+        echo "export HBASE_OFFHEAPSIZE=${HBASE_OFFHEAP_SIZE}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
     fi
 }
 
@@ -46,6 +41,11 @@ function start_daemons() {
 
   if [[ "${HBASE_MANAGES_ZK}" == "true" ]]; then
       hbase-daemon.sh start zookeeper
+  fi
+
+  # If Apache Phoenix is enabled then start Phoenix Queryserver
+  if [[ "${PHOENIX_ENABLED}" == "true" ]]; then
+      queryserver.py start
   fi
 }
 
