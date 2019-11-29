@@ -578,6 +578,7 @@ fs:
   prefix: "hdfs://"
 
 phoenix:
+  enabled: "false"
   query:
     timeoutMs: "600000"
     keepAliveMs: "60000"

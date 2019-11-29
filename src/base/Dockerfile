@@ -5,9 +5,8 @@ FROM openjdk:${JAVA_VERSION}-slim
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
 ARG HADOOP_VERSION=""
-ARG HTRACE_VERSION=""
 ARG HADOOP_DOWNLOAD_LINK="http://www-eu.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz"
-ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/${HTRACE_VERSION}-incubating/htrace-core-${HTRACE_VERSION}-incubating.jar"
+ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/3.2.0-incubating/htrace-core-3.2.0-incubating.jar"
 
 ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME="${HDUSER_HOME}/hbase" \
@@ -263,6 +262,7 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
 	DFS_CLIENT_READ_SHORTCIRCUIT_BUFFER_SIZE="NULL" \
 	DFS_DOMAIN_SOCKET_PATH="NULL" \
 	FS_PREFIX="hdfs://" \
+	PHOENIX_ENABLED="false" \
 	PHOENIX_QUERY_TIMEOUTMS="600000" \
 	PHOENIX_QUERY_KEEPALIVEMS="60000" \
 	PHOENIX_QUERY_THREADPOOLSIZE="128" \
@@ -359,7 +359,7 @@ RUN apt-get update && \
     # Move Hadoop native libraries to defined folder which its location /home/hduser/ext_libs/hadoop_native_libs
     mv ${HDUSER_HOME}/hadoop-${HADOOP_VERSION}/lib/native/* ${EXT_LIBS_HOME}/hadoop_native_libs && \
     # Move HTrace jar file to defined folder which its location /home/hduser/ext_libs/htrace
-    mv htrace-core-${HTRACE_VERSION}-incubating.jar ${EXT_LIBS_HOME}/htrace && \
+    mv htrace-core-3.2.0-incubating.jar ${EXT_LIBS_HOME}/htrace && \
     # Remove remaining Hadoop files
     rm -r hadoop-${HADOOP_VERSION}.tar.gz ${HDUSER_HOME}/hadoop-${HADOOP_VERSION} && \
     # Set owner of folder /home/hduser to Hadoop user which its name hduser

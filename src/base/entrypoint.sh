@@ -28,6 +28,11 @@ function load_configs() {
     if [[ "${HBASE_OFFHEAP_SIZE}" != "NULL" ]]; then
       echo "export HBASE_OFFHEAPSIZE=${HBASE_OFFHEAP_SIZE}" >> "${HBASE_CONF_DIR}/hbase-env.sh"
     fi
+
+    # If Apache Phoenix is enabled then start Phoenix Queryserver
+    if [[ "${PHOENIX_ENABLED}" == "true" ]]; then
+        queryserver.py start
+    fi
 }
 
 
