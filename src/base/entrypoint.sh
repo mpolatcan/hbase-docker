@@ -1,13 +1,13 @@
 #!/bin/bash
 
 function is_hdfs_ready() {
-  nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+  nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT:=9000}
   result=$?
 
   until [[ $result -eq 0 ]]; do
     echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
     sleep ${DFS_NAMENODE_CONN_RETRY_INTERVAL}
-    nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT}
+    nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT:=9000}
     result=$?
   done
 

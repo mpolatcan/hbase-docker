@@ -1,7 +1,7 @@
 version: "3"
 services:
   hbase-master:
-    image: mpolatcan/hbase:2.2.2-java8
+    image: mpolatcan/hbase:2.2.5-hadoop-3.2.1-java8
     container_name: hbase-master
     hostname: hbase-master
     environment:
@@ -17,7 +17,7 @@ services:
       - 8765:8765
 
   hbase-regionserver:
-    image: mpolatcan/hbase:2.2.2-java8
+    image: mpolatcan/hbase:2.2.5-hadoop-3.2.1-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
