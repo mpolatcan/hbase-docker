@@ -24,7 +24,6 @@ ADD config_loader.sh ${HDUSER_HOME}/hbase_config_loader.sh
 
 USER root
 RUN apt-get update && \
-    # Install core dependencies
     apt-get -y install --no-install-recommends procps \
                                                nano \
                                                wget \
@@ -38,7 +37,6 @@ RUN apt-get update && \
                                                net-tools \
                                                python && \
     rm -rf /var/lib/apt/lists/* && \
-    addgroup hadoop && adduser --disabled-password --gecos "" --ingroup hadoop hduser && \
     mkdir -p ${HBASE_HOME} ${PHOENIX_HOME} ${EXT_LIBS_HOME} ${EXT_LIBS_HOME}/hadoop_native_libs ${EXT_LIBS_HOME}/htrace && \
     wget ${HADOOP_DOWNLOAD_LINK} ${HTRACE_DOWNLOAD_LINK} && \
     tar -xvzf hadoop-${HADOOP_VERSION}.tar.gz -C ${HDUSER_HOME} && \
