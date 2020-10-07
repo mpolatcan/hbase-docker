@@ -4,7 +4,9 @@ FROM mpolatcan/hadoop:${HADOOP_VERSION}-java8
 
 MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
+ARG HADOOP_VERSION=""
 ARG HTRACE_DOWNLOAD_LINK="https://repo1.maven.org/maven2/org/apache/htrace/htrace-core/3.2.0-incubating/htrace-core-3.2.0-incubating.jar"
+ARG HADOOP_DOWNLOAD_LINK="http://downloads.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz"
 
 ENV HDUSER_HOME "/home/hduser"
 ENV HBASE_HOME="${HDUSER_HOME}/hbase" \
