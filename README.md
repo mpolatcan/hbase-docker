@@ -1,10 +1,12 @@
 # hbase-docker
 
-![](https://github.com/mpolatcan/hbase-docker/workflows/hbase-docker%20(master)/badge.svg)
+![](https://github.com/mpolatcan/hbase-docker/workflows/hbase-docker/badge.svg)
 
-Scalable HBase Docker image with built-in Hadoop works at Docker at Kubernetes
+Scalable **Apache HBase** Docker image with built-in **Apache Hadoop** works at **Docker Compose** and **Kubernetes**
 
 ## To Do
 
 - Documentation
 - Kubernetes Deployment
+- Docker Compose refactoring
+- Kustomize ready manifests
