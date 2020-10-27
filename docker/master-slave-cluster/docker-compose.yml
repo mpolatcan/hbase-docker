@@ -1,7 +1,7 @@
 version: "3"
 services:
   hbase-master:
-    image: mpolatcan/hbase:2.2.5-hadoop-2.7.7-java8
+    image: mpolatcan/hbase:2.2.5-hadoop-3.3.0-java8
     container_name: hbase-master
     hostname: hbase-master
     environment:
@@ -9,7 +9,7 @@ services:
         master
         thrift
         rest
-      DFS_NAMENODE_HOSTNAME: "hdfs-master"
+      FS_DEFAULTFS: "hdfs://hdfs-master:9000"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
       PHOENIX_ENABLED: "true"
     ports:
@@ -17,32 +17,32 @@ services:
       - 8765:8765
 
   hbase-regionserver:
-    image: mpolatcan/hbase:2.2.5-hadoop-2.7.7-java8
+    image: mpolatcan/hbase:2.2.5-hadoop-3.3.0-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
-      DFS_NAMENODE_HOSTNAME: "hdfs-master"
-      HBASE_MASTER_HOSTNAME: "hbase-master"
+      FS_DEFAULTFS: "hdfs://hdfs-master:9000"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
 
   hdfs-master:
-    image: mpolatcan/hadoop:2.7.7-java8
+    image: mpolatcan/hadoop:3.3.0-java8
     container_name: hdfs-master
     hostname: hdfs-master
     environment:
       HADOOP_DAEMONS: |
         namenode
+      FS_DEFAULTFS: "hdfs://0.0.0.0:9000"
     ports:
       - 9870:9870 # Namenode UI
       - 9868:9868 # Secondarynamenode UI Port
       - 8088:8088 # Resourcemanager UI Port
 
   hdfs-slave:
-    image: mpolatcan/hadoop:2.7.7-java8
+    image: mpolatcan/hadoop:3.3.0-java8
     environment:
       HADOOP_DAEMONS: |
         datanode
-      DFS_NAMENODE_HOSTNAME: "hdfs-master"
+      FS_DEFAULTFS: "hdfs://hdfs-master:9000"
     ports:
       - 9864 # Datanode UI Port
       - 8042 # Nodemanager UI Port

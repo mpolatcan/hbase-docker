@@ -12,8 +12,6 @@ class Constants:
     KEY_PATH = "path"
     KEY_FILENAME = "filename"
     CONFIG_LOADER_STD_STATEMENT_FMT = "load_config \"{property}\" \"${{{env_var_name}:={env_var_value}}}\" \"{config_filename}\""
-    CONFIG_LOADER_SUBST_STATEMENT_FMT = "load_config \"{property}\" \"{substitution}\" \"{config_filename}\""
-    CONFIG_LOADER_OPT_SUBST_STATEMENT_FMT = "load_config_with_opt \"{property}\" \"{check}\" \"{substitution_not_null}\" \"{substitution_null}\" \"{config_filename}\""
     CONFIGURATION_TAG_WRITE_FMT = "printf \"<configuration>\\n\" > \"${{HBASE_CONF_DIR}}/{filename}\""
     CONFIGURATION_TAG_APPEND_FMT = "printf \"</configuration>\" >> \"${{HBASE_CONF_DIR}}/{filename}\"\n"
 
@@ -34,23 +32,12 @@ class ConfigLoaderGenerator:
                 property_name = property_name[:-1] if property_name[-1] == "." else property_name
                 env_var_name = property_name.upper().replace(".", "_").replace("-", "_")
 
-                if value.find("=") == 0:  # standard load config statement
-                    load_fn_calls.append(Constants.CONFIG_LOADER_SUBST_STATEMENT_FMT.format(
-                        property=property_name, substitution=value[1:], config_filename=config_filename)
-                    )
-                elif value.find("?") == 0:  # optional load config statement
-                    tokens = value.split(",")
-
-                    load_fn_calls.append(Constants.CONFIG_LOADER_OPT_SUBST_STATEMENT_FMT.format(
-                        property=property_name, check=tokens[0][1:], substitution_not_null=tokens[1], substitution_null=tokens[2], config_filename=config_filename
-                    ))
-                else:
-                    load_fn_calls.append(
-                        Constants.CONFIG_LOADER_STD_STATEMENT_FMT.format(property=property_name,
-                                                                         env_var_name=env_var_name,
-                                                                         env_var_value=value,
-                                                                         config_filename=config_filename)
-                    )
+                load_fn_calls.append(
+                    Constants.CONFIG_LOADER_STD_STATEMENT_FMT.format(property=property_name,
+                                                                     env_var_name=env_var_name,
+                                                                     env_var_value=value,
+                                                                     config_filename=config_filename)
+                )
 
         return load_fn_calls
 
@@ -66,7 +53,7 @@ class ConfigLoaderGenerator:
             _load_fn_calls.append(Constants.CONFIGURATION_TAG_APPEND_FMT.format(filename=config_filename))
             load_fn_calls.extend(_load_fn_calls)
 
-        open("{loc}/config_loader.sh".format(loc=self.__config[Constants.KEY_OUTPUT_DIR]), "w").write(
+        open("config_loader.sh", "w").write(
             self.__config[Constants.KEY_CONFIG_LOADER_SH_TEMPLATE].format(load_fn_calls="\n".join(load_fn_calls))
         )
 

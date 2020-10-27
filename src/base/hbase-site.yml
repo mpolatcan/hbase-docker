@@ -14,9 +14,9 @@ zookeeper:
     acl.parent: "acl"
     parent: "/hbase"
 hbase:
-  tmp.dir: "=${HBASE_HOME}/tmp"
+  tmp.dir: "\\${java.io.tmpdir\\}/hbase-\\${user.name\\}"
   rootdir:
-    "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}/hbase"
+    "": "\\${hbase.tmp.dir\\}/hbase"
     perms: "700"
   cluster.distributed: "true"
   zookeeper:
@@ -30,10 +30,10 @@ hbase:
     property:
       initLimit: "10"
       syncLimit: "5"
-      dataDir: "=${HBASE_HOME}/zookeeper"
+      dataDir: "\\${hbase.tmp.dir\\}/zookeeper"
       clientPort: "2181"
       maxClientCnxns: "300"
-  local.dir: "=${HBASE_HOME}/local"
+  local.dir: "\\${hbase.tmp.dir\\}/local/"
   server:
     keyvalue.maxsize: "10485760"
     thread.wakefrequency: "10000"
@@ -41,9 +41,6 @@ hbase:
     compactchecker.interval.multiplier: "1000"
     scanner.max.result.size: "104857600"
   master:
-    hostname: "NULL"
-    port: "16000"
-    "": "?${HBASE_MASTER_HOSTNAME},${HBASE_MASTER_HOSTNAME}:${HBASE_MASTER_PORT},${HOSTNAME}:${HBASE_MASTER_PORT}"
     info:
       port: "16010"
       bindAddress: "0.0.0.0"
@@ -67,7 +64,7 @@ hbase:
     regions.recovery.check.interval: "1200000"
   regionserver:
     hostname:
-      "": "?${HBASE_REGIONSERVER_HOSTNAME},${HBASE_REGIONSERVER_HOSTNAME},${HOSTNAME}"
+      "": "NULL"
       disable.master.reversedns: "false"
     port: "16020"
     info:
@@ -94,9 +91,9 @@ hbase:
       nameserver: "default"
     region.split.policy: "org.apache.hadoop.hbase.regionserver.SteppingSplitPolicy"
     regionSplitLimit: "1000"
-    flush.check.period: "=${HBASE_SERVER_THREAD_WAKEFREQUENCY}"
+    flush.check.period: "\\${hbase.server.thread.wakefrequency\\}"
     compaction:
-      check.period: "=${HBASE_SERVER_THREAD_WAKEFREQUENCY}"
+      check.period: "\\${hbase.server.thread.wakefrequency\\}"
       enabled: "true"
     offheap.global.memstore.size: "0"
     thread.compaction.throttle: "2684354560"
@@ -244,11 +241,6 @@ hbase:
     dns:
       interface: "NULL"
       nameserver: "NULL"
-  wal:
-    dir:
-      "": "=${FS_PREFIX}${DFS_NAMENODE_HOSTNAME}:${DFS_NAMENODE_RPC_PORT}/hbase"
-      perms: "700"
-    provider: "NULL"
   data.umask:
     "": "000"
     enable: "false"
@@ -256,7 +248,7 @@ hbase:
     enabled: "true"
     restore:
       take.failsafe.snapshot: "true"
-      failsafe.name: "hbase-failsafe-{snapshot.name}-{restore.timestamp}"
+      failsafe.name: "hbase-failsafe-{snapshot.name\\}-{restore.timestamp\\}"
     working.dir: "NULL"
     master.timeout.millis: "300000"
     region.timeout: "300000"
@@ -272,7 +264,7 @@ hbase:
     multicast.address:
       ip: "226.1.1.3"
       port: "16100"
-  dynamic.jars.dir: "=${HBASE_ROOTDIR}/lib"
+  dynamic.jars.dir: "\\${hbase.rootdir\\}/lib"
   security:
     authentication:
       "": "simple"

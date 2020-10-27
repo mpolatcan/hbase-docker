@@ -15,7 +15,16 @@ jobs:
         htrace_version: [3.2.0]
         hadoop_version: [2.10.1, 2.9.2, 2.8.5, 2.7.7]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      - run: |
+          cd src/base
+          python config_loader_generator.py config.yaml
       - run: echo ${{secrets.DOCKER_PASSWORD}} | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
       - run: docker build -q
           -t ${{secrets.DOCKER_USERNAME}}/${{matrix.repository}}:base-hadoop-${{matrix.hadoop_version}}-java${{matrix.java_version}}

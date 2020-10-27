@@ -20,7 +20,5 @@ config_loader_sh_template: |
   {load_fn_calls}
 
 config_files:
-  - path: hbase_configs/hbase-site.yml
+  - path: hbase-site.yml
     filename: hbase-site.xml
-
-output_dir: ../../base
