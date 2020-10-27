@@ -1,17 +1,5 @@
 #!/bin/bash
 
-function is_hdfs_ready() {
-    nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT:=9000}
-
-    until [[ $? -eq 0 ]]; do
-      echo "Waiting Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready..."
-      sleep ${DFS_NAMENODE_CONN_RETRY_INTERVAL}
-      nc -z ${DFS_NAMENODE_HOSTNAME} ${DFS_NAMENODE_RPC_PORT:=9000}
-    done
-
-    echo "Namenode \"${DFS_NAMENODE_HOSTNAME}\" is ready. Now starting HBase daemons..."
-}
-
 function load_configs() {
     # Load HBase configs of hbase-site.xml
     ./hbase_config_loader.sh
@@ -47,13 +35,12 @@ function start_daemons() {
   fi
 }
 
-# Await HDFS is ready
-is_hdfs_ready
-
 # Start Loading configs of HBase
 load_configs
 
 # Start HBase Daemons
-[[ "${HBASE_DAEMONS}" != "NULL" ]] && start_daemons
+if [[ "${HBASE_DAEMONS}" != "NULL" ]]; then
+  start_daemons
+fi
 
 tail -f /dev/null

@@ -1,13 +1,11 @@
 dfs:
   namenode:
-    hostname: "NULL"
     rpc-port: "9000"
   client.read.shortcircuit:
     "": "false"
     skip.checksum: "NULL"
     buffer.size: "NULL"
   domain.socket.path: "NULL"
-fs.prefix: "hdfs://"
 zookeeper:
   session.timeout: "90000"
   znode:
@@ -283,6 +281,7 @@ hbase:
     regionserver.classes: "NULL"
     master.classes: "NULL"
     store.wal:
+      use.hsync: "true"
       periodic.roll.msec: "3600000"
       roll.threshold: "33554432"
       warn.threshold: "64"
@@ -311,6 +310,8 @@ hbase:
     compactor.class: "org.apache.hadoop.hbase.mob.compactions.PartitionedMobCompactor"
   store.delete.expired.storefile: "NULL"
   unsafe.stream.capability.enforce: "true"
+  wal.dir:
+    "": "\\${hbase.rootdir\\}"
 hfile:
   block:
     cache:
