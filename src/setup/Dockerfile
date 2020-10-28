@@ -20,7 +20,6 @@ RUN wget ${HBASE_DOWNLOAD_LINK} ${PHOENIX_DOWNLOAD_LINK} && \
     cp ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-*.jar ${HBASE_HOME}/lib && \
     cp ${HADOOP_HOME}/share/hadoop/hdfs/hadoop-*.jar ${HBASE_HOME}/lib && \
     cp ${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*.jar ${HBASE_HOME}/lib && \
-    cp ${HADOOP_HOME}/share/hadoop/mapreduce/lib/hadoop-*.jar ${HBASE_HOME}/lib && \
     cp ${HADOOP_HOME}/share/hadoop/yarn/hadoop-*.jar ${HBASE_HOME}/lib && \
     chown -R hduser:hadoop ${HDUSER_HOME} && \
     rm -r ${HDUSER_HOME}/hbase-${HBASE_VERSION} ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin && \
