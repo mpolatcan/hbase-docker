@@ -1,6 +1,4 @@
 dfs:
-  namenode:
-    rpc-port: "9000"
   client.read.shortcircuit:
     "": "false"
     skip.checksum: "NULL"

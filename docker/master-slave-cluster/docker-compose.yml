@@ -1,7 +1,7 @@
 version: "3"
 services:
   hbase-master:
-    image: mpolatcan/hbase:2.2.5-hadoop-2.10.1-java8
+    image: mpolatcan/hbase:2.2.6-hadoop-2.8.5-java8
     container_name: hbase-master
     hostname: hbase-master
     environment:
@@ -18,7 +18,7 @@ services:
       - 8765:8765
 
   hbase-regionserver:
-    image: mpolatcan/hbase:2.2.5-hadoop-2.10.1-java8
+    image: mpolatcan/hbase:2.2.6-hadoop-2.8.5-java8
     environment:
       HBASE_DAEMONS: |
         regionserver
@@ -27,7 +27,7 @@ services:
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
 
   hdfs-master:
-    image: mpolatcan/hadoop:2.10.1-java8
+    image: mpolatcan/hadoop:2.8.5-java8
     container_name: hdfs-master
     hostname: hdfs-master
     environment:
@@ -40,7 +40,7 @@ services:
       - 8088:8088 # Resourcemanager UI Port
 
   hdfs-slave:
-    image: mpolatcan/hadoop:2.10.1-java8
+    image: mpolatcan/hadoop:2.8.5-java8
     environment:
       HADOOP_DAEMONS: |
         datanode
