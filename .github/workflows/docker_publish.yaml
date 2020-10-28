@@ -56,8 +56,6 @@ jobs:
             hadoop_version: 3.1.4
           - hbase_version: 1.4.13
             hadoop_version: 3.2.1
-          - hbase_version: 1.4.13
-            hadoop_version: 3.3.0
           - hbase_version: 2.2.6
             hadoop_version: 2.7.7
           - hbase_version: 2.2.6
