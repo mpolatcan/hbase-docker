@@ -10,6 +10,7 @@ services:
         thrift
         rest
       HBASE_ROOTDIR: "hdfs://hdfs-master:9000/hbase"
+      HBASE_WAL_DIR: "hdfs://hdfs-master:9000/hbase-wal"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
       PHOENIX_ENABLED: "true"
     ports:
@@ -22,6 +23,7 @@ services:
       HBASE_DAEMONS: |
         regionserver
       HBASE_ROOTDIR: "hdfs://hdfs-master:9000/hbase"
+      HBASE_WAL_DIR: "hdfs://hdfs-master:9000/hbase-wal"
       HBASE_ZOOKEEPER_QUORUM: "zk1,zk2,zk3"
 
   hdfs-master:

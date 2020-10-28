@@ -309,7 +309,7 @@ hbase:
     delfile.max.count: "3"
     compactor.class: "org.apache.hadoop.hbase.mob.compactions.PartitionedMobCompactor"
   store.delete.expired.storefile: "NULL"
-  unsafe.stream.capability.enforce: "true"
+  unsafe.stream.capability.enforce: "false"
   wal.dir:
     "": "\\${hbase.rootdir\\}"
 hfile:

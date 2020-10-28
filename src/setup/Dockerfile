@@ -14,7 +14,14 @@ RUN wget ${HBASE_DOWNLOAD_LINK} ${PHOENIX_DOWNLOAD_LINK} && \
     mv ${HDUSER_HOME}/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
     mv ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin/* ${PHOENIX_HOME} && \
     cp ${PHOENIX_HOME}/phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-server.jar ${HBASE_HOME}/lib && \
-    mv ${EXT_LIBS_HOME}/htrace/*.jar ${HBASE_HOME}/lib && \
+    mv htrace-core-3.2.0-incubating.jar ${HBASE_HOME}/lib && \
+    rm ${HBASE_HOME}/lib/hadoop-*.jar && \
+    cp ${HADOOP_HOME}/share/hadoop/common/hadoop-*.jar ${HBASE_HOME}/lib && \
+    cp ${HADOOP_HOME}/share/hadoop/common/lib/hadoop-*.jar ${HBASE_HOME}/lib && \
+    cp ${HADOOP_HOME}/share/hadoop/hdfs/hadoop-*.jar ${HBASE_HOME}/lib && \
+    cp ${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*.jar ${HBASE_HOME}/lib && \
+    cp ${HADOOP_HOME}/share/hadoop/mapreduce/lib/hadoop-*.jar ${HBASE_HOME}/lib && \
+    cp ${HADOOP_HOME}/share/hadoop/yarn/hadoop-*.jar ${HBASE_HOME}/lib && \
     chown -R hduser:hadoop ${HDUSER_HOME} && \
     rm -r ${HDUSER_HOME}/hbase-${HBASE_VERSION} ${HDUSER_HOME}/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin && \
     rm hbase-${HBASE_VERSION}-bin.tar.gz apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-bin.tar.gz
