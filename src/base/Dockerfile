@@ -13,8 +13,7 @@ ENV HBASE_CONF_DIR="${HBASE_HOME}/conf" \
     HBASE_DAEMONS="NULL" \
     HBASE_MANAGES_ZK="false" \
     HBASE_HEAP_SIZE="NULL" \
-    HBASE_OFFHEAP_SIZE="NULL" \
-    DFS_NAMENODE_CONN_RETRY_INTERVAL="5"
+    HBASE_OFFHEAP_SIZE="NULL"
 
 ADD entrypoint.sh ${HDUSER_HOME}/hbase_entrypoint.sh
 ADD config_loader.sh ${HDUSER_HOME}/hbase_config_loader.sh
