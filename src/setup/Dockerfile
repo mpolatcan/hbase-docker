@@ -1,6 +1,9 @@
 ARG JAVA_VERSION=""
 ARG HADOOP_VERSION=""
+
 FROM mpolatcan/hbase:base-hadoop-${HADOOP_VERSION}-java${JAVA_VERSION}
+
+MAINTAINER Mutlu Polatcan <mutlupolatcan@gmail.com>
 
 ARG HBASE_VERSION=""
 ARG PHOENIX_VERSION=""
@@ -11,10 +14,10 @@ ARG PHOENIX_ZIP_FOLDER_NAME="apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_H
 ARG PHOENIX_DOWNLOAD_LINK="http://downloads.apache.org/phoenix/apache-phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}/bin/${PHOENIX_ZIP_FOLDER_NAME}.tar.gz"
 
 RUN wget ${HBASE_DOWNLOAD_LINK} ${PHOENIX_DOWNLOAD_LINK} && \
-    tar -xvzf ${HBASE_ZIP_FOLDER_NAME}.tar.gz -C ${HDUSER_HOME} && \
-    tar -xvzf ${PHOENIX_ZIP_FOLDER_NAME}.tar.gz -C ${HDUSER_HOME} && \
-    mv ${HDUSER_HOME}/hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
-    mv ${HDUSER_HOME}/${PHOENIX_ZIP_FOLDER_NAME}/* ${PHOENIX_HOME} && \
+    tar -xvzf ${HBASE_ZIP_FOLDER_NAME}.tar.gz && \
+    tar -xvzf ${PHOENIX_ZIP_FOLDER_NAME}.tar.gz && \
+    mv hbase-${HBASE_VERSION}/* ${HBASE_HOME} && \
+    mv ${PHOENIX_ZIP_FOLDER_NAME}/* ${PHOENIX_HOME} && \
     cp ${PHOENIX_HOME}/phoenix-${PHOENIX_VERSION}-HBase-${PHOENIX_HBASE_VERSION}-server.jar ${HBASE_HOME}/lib && \
     mv htrace-core-3.2.0-incubating.jar ${HBASE_HOME}/lib && \
     rm ${HBASE_HOME}/lib/hadoop-*.jar && \
@@ -24,11 +27,10 @@ RUN wget ${HBASE_DOWNLOAD_LINK} ${PHOENIX_DOWNLOAD_LINK} && \
     cp ${HADOOP_HOME}/share/hadoop/mapreduce/hadoop-*.jar ${HBASE_HOME}/lib && \
     cp ${HADOOP_HOME}/share/hadoop/yarn/hadoop-*.jar ${HBASE_HOME}/lib && \
     chown -R hduser:hadoop ${HDUSER_HOME} && \
-    rm -r ${HDUSER_HOME}/hbase-${HBASE_VERSION} \
-          ${HDUSER_HOME}/${PHOENIX_ZIP_FOLDER_NAME} \
+    rm -r hbase-${HBASE_VERSION} \
+          ${PHOENIX_ZIP_FOLDER_NAME} \
           ${HBASE_ZIP_FOLDER_NAME}.tar.gz \
           ${PHOENIX_ZIP_FOLDER_NAME}.tar.gz
 
 USER hduser
-WORKDIR ${HDUSER_HOME}
-ENTRYPOINT ["./hbase_entrypoint.sh"]
+ENTRYPOINT ["./hbase_entrypoint.sh", "hbase"]
